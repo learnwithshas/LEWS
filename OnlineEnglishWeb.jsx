@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 /* ── PALETTE ─────────────────────────────────────── */
 const C = {
@@ -405,12 +405,55 @@ export default function App() {
   const [hovBtn,setHovBtn]=useState(false);
   const [submitting,setSubmitting]=useState(false);
   const [submitError,setSubmitError]=useState("");
+  const [paymentScreenshot,setPaymentScreenshot]=useState(null);
+  const [screenshotPreview,setScreenshotPreview]=useState(null);
+  const screenshotRef=useRef(null);
+
+  useEffect(()=>()=>{ if(screenshotPreview) URL.revokeObjectURL(screenshotPreview); },[screenshotPreview]);
+
+  function handleScreenshotPick(e){
+    const file=e.target.files?.[0];
+    setSubmitError("");
+    setErrors(x=>({...x,screenshot:""}));
+    if(!file) return;
+    if(!file.type.startsWith("image/")){
+      setErrors(x=>({...x,screenshot:"Please upload an image (JPG, PNG, etc.)"}));
+      return;
+    }
+    if(file.size>5*1024*1024){
+      setErrors(x=>({...x,screenshot:"Image must be under 5 MB"}));
+      return;
+    }
+    if(screenshotPreview) URL.revokeObjectURL(screenshotPreview);
+    setPaymentScreenshot(file);
+    setScreenshotPreview(URL.createObjectURL(file));
+  }
+
+  function clearScreenshot(){
+    if(screenshotPreview) URL.revokeObjectURL(screenshotPreview);
+    setPaymentScreenshot(null);
+    setScreenshotPreview(null);
+    setErrors(x=>({...x,screenshot:""}));
+    if(screenshotRef.current) screenshotRef.current.value="";
+  }
+
+  function resetRegistration(){
+    clearScreenshot();
+    setView("home");
+    setStep(0);
+    setForm({name:"",email:"",phone:"",city:""});
+    setSubmitError("");
+  }
 
   function update(f,v){setForm(x=>({...x,[f]:v}));setErrors(e=>({...e,[f]:""}))}
   async function confirmBooking(){
     if(!validate()) return;
     const accessKey=import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
     const sheetUrl=import.meta.env.VITE_GOOGLE_SHEET_URL;
+    if(accessKey&&!paymentScreenshot){
+      setSubmitError("Please upload your payment screenshot before confirming.");
+      return;
+    }
     if(!accessKey&&!sheetUrl){
       setSubmitError("Registration is not set up yet. Please contact learnenglishwithshas@gmail.com.");
       return;
@@ -425,6 +468,15 @@ export default function App() {
       course:"Speak English With Confidence",
       fee:"₹300 initial",
     };
+    const message=[
+      `Name: ${form.name}`,
+      `Email: ${form.email}`,
+      `WhatsApp: ${form.phone}`,
+      `City: ${form.city}`,
+      `Course: ${payload.course}`,
+      `Initial fee: ${payload.fee}`,
+      `Payment screenshot: attached`,
+    ].join("\n");
     const logToSheet=sheetUrl
       ?fetch(sheetUrl,{
         method:"POST",
@@ -435,30 +487,25 @@ export default function App() {
       :null;
     try{
       if(accessKey){
+        const body=new FormData();
+        body.append("access_key",accessKey);
+        body.append("subject",`New course registration: ${form.name}`);
+        body.append("from_name",form.name);
+        body.append("name",form.name);
+        body.append("email",form.email);
+        body.append("phone",form.phone);
+        body.append("city",form.city);
+        body.append("message",message);
+        body.append("attachment",paymentScreenshot,paymentScreenshot.name);
         const res=await fetch("https://api.web3forms.com/submit",{
           method:"POST",
-          headers:{"Content-Type":"application/json",Accept:"application/json"},
-          body:JSON.stringify({
-            access_key:accessKey,
-            subject:`New course registration: ${form.name}`,
-            from_name:form.name,
-            email:form.email,
-            phone:form.phone,
-            city:form.city,
-            message:[
-              `Name: ${form.name}`,
-              `Email: ${form.email}`,
-              `WhatsApp: ${form.phone}`,
-              `City: ${form.city}`,
-              `Course: ${payload.course}`,
-              `Initial fee: ${payload.fee}`,
-            ].join("\n"),
-          }),
+          body,
         });
         const data=await res.json();
         if(!data.success) throw new Error(data.message||"Submission failed");
       }
       if(logToSheet) await logToSheet;
+      clearScreenshot();
       setView("success");
     }catch(err){
       setSubmitError(err.message||"Could not send registration. Please email learnenglishwithshas@gmail.com instead.");
@@ -505,7 +552,7 @@ export default function App() {
             <p style={{color:"rgba(255,255,255,0.75)",fontSize:12,margin:0}}>🕗 8:00 – 9:00 PM · Google Meet link via WhatsApp: <strong>{form.phone}</strong></p>
           </div>
           <WelcomeGuide name={form.name.split(" ")[0]}/>
-          <button className="btn-glow anim-pulse" onClick={()=>{setView("home");setStep(0);setForm({name:"",email:"",phone:"",city:""});}}
+          <button className="btn-glow anim-pulse" onClick={resetRegistration}
             style={{width:"100%",marginTop:24,background:C.navy,color:C.goldLight,border:"none",borderRadius:12,padding:"13px 36px",fontSize:15,cursor:"pointer",fontFamily:"Inter,sans-serif",fontWeight:700,letterSpacing:0.5}}>
             ← Back to Home
           </button>
@@ -586,7 +633,29 @@ export default function App() {
                   <p style={{color:C.textMute,fontSize:13,margin:"0 0 4px"}}>Send ₹300 to:</p>
                   <p className="lews-upi-id" style={{color:C.navy,fontWeight:800,fontSize:15,margin:"0 0 4px",fontFamily:"monospace",textAlign:"center"}}>{UPI_ID}</p>
                   <PaymentQR />
-                  <p style={{color:C.textMute,fontSize:12,margin:0,textAlign:"center"}}>After payment, share your screenshot on WhatsApp or email.</p>
+                  <p style={{color:C.textMute,fontSize:12,margin:"12px 0 0",textAlign:"center"}}>Then upload your payment screenshot below.</p>
+                </div>
+                <div style={{background:C.white,border:`2px dashed ${paymentScreenshot?C.navyLight:C.creamMid}`,borderRadius:12,padding:"18px",marginBottom:20,textAlign:"center"}}>
+                  <p style={{fontWeight:700,color:C.navy,fontSize:14,margin:"0 0 10px",fontFamily:"Inter,sans-serif"}}>📎 Upload Payment Screenshot</p>
+                  {screenshotPreview?(
+                    <div>
+                      <img src={screenshotPreview} alt="Payment screenshot preview" style={{maxWidth:"100%",maxHeight:220,borderRadius:10,border:`1px solid ${C.creamMid}`,objectFit:"contain"}}/>
+                      <p style={{color:C.textMute,fontSize:12,margin:"8px 0 0",fontFamily:"Inter,sans-serif"}}>{paymentScreenshot.name}</p>
+                      <button type="button" onClick={clearScreenshot} disabled={submitting}
+                        style={{marginTop:10,background:"transparent",color:C.navy,border:`1px solid ${C.navyMid}`,borderRadius:8,padding:"8px 14px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
+                        Remove & choose another
+                      </button>
+                    </div>
+                  ):(
+                    <>
+                      <p style={{color:C.textMute,fontSize:12,margin:"0 0 12px",fontFamily:"Inter,sans-serif"}}>JPG or PNG · max 5 MB</p>
+                      <label style={{display:"inline-block",background:C.navy,color:C.goldLight,borderRadius:10,padding:"12px 20px",fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
+                        Choose screenshot
+                        <input ref={screenshotRef} type="file" accept="image/*" capture="environment" onChange={handleScreenshotPick} style={{display:"none"}}/>
+                      </label>
+                    </>
+                  )}
+                  {errors.screenshot&&<p style={{...errS,textAlign:"center",marginTop:10}}>{errors.screenshot}</p>}
                 </div>
                 {submitError&&<p style={{...errS,textAlign:"center",marginBottom:12}}>{submitError}</p>}
                 <div className="lews-action-btns" style={{display:"flex",gap:10}}>
