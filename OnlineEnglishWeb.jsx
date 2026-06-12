@@ -75,6 +75,153 @@ input:focus, textarea:focus {
   border-color: ${C.navyLight} !important;
   box-shadow: 0 0 0 3px rgba(42,82,152,0.15);
 }
+
+html, body { overflow-x: hidden; max-width: 100%; }
+
+.lews-page { width: 100%; max-width: 100%; overflow-x: hidden; }
+
+.lews-review-row span:last-child {
+  text-align: right;
+  word-break: break-word;
+  max-width: 58%;
+}
+
+.lews-upi-id {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+.lews-hero-cta {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .lews-nav {
+    padding: 0 14px !important;
+    height: 56px !important;
+  }
+  .lews-nav-logo {
+    font-size: 16px !important;
+    line-height: 1.2;
+  }
+  .lews-nav-links {
+    display: none !important;
+  }
+  .lews-nav-cta {
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+    white-space: nowrap;
+  }
+  .lews-hero {
+    padding: 48px 16px 56px !important;
+  }
+  .lews-hero-sub {
+    letter-spacing: 2px !important;
+    font-size: 12px !important;
+  }
+  .lews-hero-tagline {
+    font-size: 13px !important;
+    letter-spacing: 0.5px !important;
+  }
+  .lews-badge-wrap {
+    padding: 14px 28px !important;
+  }
+  .lews-features {
+    gap: 12px !important;
+    padding: 18px 14px !important;
+    justify-content: center !important;
+  }
+  .lews-feature-item {
+    min-width: 72px !important;
+    flex: 1 1 28% !important;
+  }
+  .lews-hero-cta {
+    width: 100% !important;
+    max-width: 320px !important;
+    padding: 16px 20px !important;
+    font-size: 15px !important;
+    justify-content: center !important;
+  }
+  .lews-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px 12px !important;
+  }
+  .lews-info-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+  .lews-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .lews-section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .lews-banner-cta {
+    width: calc(100% - 32px) !important;
+    max-width: 320px !important;
+    padding: 16px 24px !important;
+    font-size: 15px !important;
+  }
+  .lews-contact {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .lews-contact-btn {
+    width: 100% !important;
+    text-align: center;
+  }
+  .lews-form-card {
+    padding: 24px 18px !important;
+    border-radius: 20px !important;
+  }
+  .lews-form-banner {
+    padding: 22px 16px !important;
+    border-radius: 16px !important;
+  }
+  .lews-success-card {
+    padding: 24px 18px !important;
+    border-radius: 20px !important;
+  }
+  .lews-action-btns {
+    flex-direction: column !important;
+  }
+  .lews-action-btns button {
+    flex: none !important;
+    width: 100% !important;
+  }
+  .lews-step-connector {
+    width: 28px !important;
+    margin: 0 4px !important;
+  }
+  .lews-step-label {
+    font-size: 11px !important;
+    text-align: center;
+  }
+  .lews-upi-id {
+    font-size: 13px !important;
+  }
+  .lews-payment-qr img {
+    width: min(168px, 72vw) !important;
+    height: min(168px, 72vw) !important;
+  }
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .lews-nav-logo {
+    font-size: 14px !important;
+  }
+  .lews-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .lews-stats-label {
+    font-size: 10px !important;
+  }
+}
 `;
 
 /* ── PARTICLES ────────────────────────────────────── */
@@ -167,10 +314,10 @@ function StepBar({step}) {
               fontSize:13,fontWeight:700,transition:"all 0.35s",
               boxShadow: i===step?`0 0 0 4px rgba(245,200,66,0.3)`:"none",
             }}>{i<step?"✓":i+1}</div>
-            <span style={{fontSize:12,color:i===step?C.navy:C.textMute,fontWeight:i===step?700:400}}>{s}</span>
+            <span className="lews-step-label" style={{fontSize:12,color:i===step?C.navy:C.textMute,fontWeight:i===step?700:400}}>{s}</span>
           </div>
           {i<STEPS.length-1&&(
-            <div style={{width:56,height:2,background:i<step?C.navy:C.creamMid,margin:"0 8px",marginBottom:20,transition:"background 0.35s"}}/>
+            <div className="lews-step-connector" style={{width:56,height:2,background:i<step?C.navy:C.creamMid,margin:"0 8px",marginBottom:20,transition:"background 0.35s"}}/>
           )}
         </div>
       ))}
@@ -184,13 +331,14 @@ const GPayQR = "/gpay-qr.png";
 function PaymentQR({ compact = false }) {
   const size = compact ? 130 : 168;
   return (
-    <div style={{ textAlign: "center", margin: compact ? "10px 0 6px" : "14px 0 10px" }}>
+    <div className="lews-payment-qr" style={{ textAlign: "center", margin: compact ? "10px 0 6px" : "14px 0 10px" }}>
       <img
         src={GPayQR}
         alt="Scan to pay with Google Pay"
         style={{
           width: size,
           height: size,
+          maxWidth: "100%",
           objectFit: "contain",
           borderRadius: 10,
           border: `2px solid ${C.creamMid}`,
@@ -235,7 +383,7 @@ function WelcomeGuide({ name }) {
         <p style={heading}>💰 Fee Details</p>
         <ul style={list}>
           <li>Initial payment: <strong style={{ color: C.navy }}>₹300</strong> (due before Monday afternoon)</li>
-          <li>Pay to UPI: <strong style={{ color: C.navy, fontFamily: "monospace" }}>{UPI_ID}</strong></li>
+          <li>Pay to UPI: <strong className="lews-upi-id" style={{ color: C.navy, fontFamily: "monospace" }}>{UPI_ID}</strong></li>
           <li>Remaining balance can be cleared within 10 days of joining</li>
         </ul>
         <PaymentQR compact />
@@ -366,8 +514,8 @@ export default function App() {
   if(view==="success") return (
     <>
       <style>{CSS}</style>
-      <div style={{minHeight:"100vh",background:C.cream,padding:"32px 16px"}}>
-        <div className="anim-scaleIn" style={{background:C.white,borderRadius:24,padding:"36px 28px",maxWidth:560,margin:"0 auto",border:`1px solid ${C.creamMid}`}}>
+      <div className="lews-page" style={{minHeight:"100vh",background:C.cream,padding:"24px 16px"}}>
+        <div className="anim-scaleIn lews-success-card" style={{background:C.white,borderRadius:24,padding:"36px 28px",maxWidth:560,margin:"0 auto",border:`1px solid ${C.creamMid}`}}>
           <div style={{textAlign:"center",marginBottom:24}}>
             <div style={{width:72,height:72,borderRadius:"50%",background:C.goldPale,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px",fontSize:32,animation:"starPop 0.6s cubic-bezier(.22,.68,0,1.2) both"}}>🎓</div>
             <h2 style={{fontFamily:"Playfair Display,serif",fontSize:26,color:C.navy,marginBottom:6,fontWeight:900}}>You're In!</h2>
@@ -394,14 +542,14 @@ export default function App() {
   if(view==="register") return (
     <>
       <style>{CSS}</style>
-      <div style={{minHeight:"100vh",background:C.cream,padding:"32px 16px"}}>
-        <div style={{maxWidth:520,margin:"0 auto"}}>
+      <div className="lews-page" style={{minHeight:"100vh",background:C.cream,padding:"24px 16px"}}>
+        <div style={{maxWidth:520,margin:"0 auto",width:"100%"}}>
           <button onClick={()=>setView("home")} style={{background:"none",border:"none",color:C.navyLight,cursor:"pointer",fontSize:14,marginBottom:20,padding:0,fontWeight:700,fontFamily:"Inter,sans-serif"}}>
             ← Back to Home
           </button>
 
           {/* Header banner */}
-          <div className="anim-fadeUp" style={{background:`linear-gradient(135deg,${C.navyDark},${C.navyMid})`,borderRadius:20,padding:"28px 24px",marginBottom:20,textAlign:"center",position:"relative",overflow:"hidden"}}>
+          <div className="anim-fadeUp lews-form-banner" style={{background:`linear-gradient(135deg,${C.navyDark},${C.navyMid})`,borderRadius:20,padding:"28px 24px",marginBottom:20,textAlign:"center",position:"relative",overflow:"hidden"}}>
             <Particles/>
             <p style={{color:C.goldLight,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,marginBottom:6,fontWeight:700}}>Online Live Class</p>
             <h1 style={{fontFamily:"Playfair Display,serif",color:C.white,fontSize:28,fontWeight:900,margin:"0 0 4px"}}>Speak English</h1>
@@ -413,7 +561,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="anim-fadeUp" style={{background:C.white,borderRadius:24,padding:"36px 32px",border:`1px solid ${C.creamMid}`,animationDelay:"0.1s"}}>
+          <div className="anim-fadeUp lews-form-card" style={{background:C.white,borderRadius:24,padding:"36px 32px",border:`1px solid ${C.creamMid}`,animationDelay:"0.1s"}}>
             <StepBar step={step}/>
 
             {step===0 && (
@@ -446,8 +594,8 @@ export default function App() {
                   <p style={{fontWeight:800,color:C.navy,fontSize:15,margin:"0 0 4px",fontFamily:"Playfair Display,serif"}}>Speak English With Confidence</p>
                   <p style={{color:C.textMute,fontSize:13,margin:"0 0 14px"}}>50-Day Live Course · Mon–Fri · 8–9 PM</p>
                   {[["Name",form.name],["Email",form.email],["WhatsApp",form.phone],["City",form.city]].map(([k,v])=>(
-                    <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"7px 0",borderBottom:`1px solid ${C.creamMid}`,fontSize:13}}>
-                      <span style={{color:C.textMute}}>{k}</span><span style={{color:C.navy,fontWeight:600}}>{v}</span>
+                    <div key={k} className="lews-review-row" style={{display:"flex",justifyContent:"space-between",gap:12,padding:"7px 0",borderBottom:`1px solid ${C.creamMid}`,fontSize:13}}>
+                      <span style={{color:C.textMute,flexShrink:0}}>{k}</span><span style={{color:C.navy,fontWeight:600}}>{v}</span>
                     </div>
                   ))}
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingTop:14}}>
@@ -460,12 +608,12 @@ export default function App() {
                 <div style={{background:C.goldPale,border:`1px solid ${C.gold}`,borderRadius:12,padding:"16px 18px",marginBottom:20}}>
                   <p style={{fontWeight:700,color:C.navy,fontSize:14,margin:"0 0 6px"}}>💳 Pay via UPI / GPay / PhonePe</p>
                   <p style={{color:C.textMute,fontSize:13,margin:"0 0 4px"}}>Send ₹300 to:</p>
-                  <p style={{color:C.navy,fontWeight:800,fontSize:15,margin:"0 0 4px",fontFamily:"monospace",textAlign:"center"}}>{UPI_ID}</p>
+                  <p className="lews-upi-id" style={{color:C.navy,fontWeight:800,fontSize:15,margin:"0 0 4px",fontFamily:"monospace",textAlign:"center"}}>{UPI_ID}</p>
                   <PaymentQR />
                   <p style={{color:C.textMute,fontSize:12,margin:0,textAlign:"center"}}>After payment, share your screenshot on WhatsApp or email.</p>
                 </div>
                 {submitError&&<p style={{...errS,textAlign:"center",marginBottom:12}}>{submitError}</p>}
-                <div style={{display:"flex",gap:10}}>
+                <div className="lews-action-btns" style={{display:"flex",gap:10}}>
                   <button onClick={()=>setStep(0)} disabled={submitting}
                     style={{flex:1,background:"transparent",color:C.navy,border:`2px solid ${C.navyMid}`,borderRadius:12,padding:"13px",fontSize:15,fontWeight:700,cursor:submitting?"not-allowed":"pointer",opacity:submitting?0.6:1,fontFamily:"Inter,sans-serif",transition:"all 0.2s"}}>
                     ← Back
@@ -486,20 +634,22 @@ export default function App() {
 
   /* ══════════════════ HOME ══════════════════ */
   return (
-    <>
+    <div className="lews-page">
       <style>{CSS}</style>
 
       {/* NAV */}
-      <nav style={{background:C.navyDark,padding:"0 28px",display:"flex",alignItems:"center",justifyContent:"space-between",height:60,position:"sticky",top:0,zIndex:100}}>
-        <span style={{fontFamily:"Playfair Display,serif",fontSize:20,color:C.white,fontWeight:900,letterSpacing:0.5}}>
+      <nav className="lews-nav" style={{background:C.navyDark,padding:"0 28px",display:"flex",alignItems:"center",justifyContent:"space-between",height:60,position:"sticky",top:0,zIndex:100}}>
+        <span className="lews-nav-logo" style={{fontFamily:"Playfair Display,serif",fontSize:20,color:C.white,fontWeight:900,letterSpacing:0.5}}>
           LEARN WITH<span style={{color:C.goldLight}}> SHAS</span>
         </span>
         <div style={{display:"flex",gap:20,alignItems:"center"}}>
+          <div className="lews-nav-links" style={{display:"flex",gap:20,alignItems:"center"}}>
           {["Courses","Schedule","About"].map(l=>(
             <span key={l} style={{color:"rgba(255,255,255,0.55)",fontSize:13,cursor:"pointer",fontFamily:"Inter,sans-serif",transition:"color 0.2s"}}
               onMouseEnter={e=>e.target.style.color=C.goldLight} onMouseLeave={e=>e.target.style.color="rgba(255,255,255,0.55)"}>{l}</span>
           ))}
-          <button className="btn-glow" onClick={()=>setView("register")}
+          </div>
+          <button className="btn-glow lews-nav-cta" onClick={()=>setView("register")}
             style={{background:C.gold,color:C.navy,border:"none",borderRadius:8,padding:"9px 20px",fontSize:13,fontWeight:800,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
             Book Seat →
           </button>
@@ -510,7 +660,7 @@ export default function App() {
       <Ticker/>
 
       {/* HERO */}
-      <div style={{background:`linear-gradient(155deg,${C.navyDark} 0%,${C.navyMid} 100%)`,padding:"72px 20px 80px",textAlign:"center",position:"relative",overflow:"hidden"}}>
+      <div className="lews-hero" style={{background:`linear-gradient(155deg,${C.navyDark} 0%,${C.navyMid} 100%)`,padding:"72px 20px 80px",textAlign:"center",position:"relative",overflow:"hidden"}}>
         <Particles/>
         {/* Decorative rings */}
         <div style={{position:"absolute",top:-80,right:-80,width:320,height:320,borderRadius:"50%",border:`1px solid rgba(245,200,66,0.12)`,pointerEvents:"none"}}/>
@@ -528,16 +678,16 @@ export default function App() {
         <h1 className="anim-fadeUp" style={{fontFamily:"Playfair Display,serif",color:C.goldLight,fontSize:"clamp(46px,11vw,88px)",fontWeight:900,lineHeight:1,margin:"0 0 12px",textTransform:"uppercase",letterSpacing:-2,animationDelay:"0.16s"}}>
           ENGLISH
         </h1>
-        <p className="anim-fadeUp" style={{color:"rgba(255,255,255,0.85)",fontSize:"clamp(13px,3vw,18px)",fontWeight:700,letterSpacing:4,textTransform:"uppercase",marginBottom:20,animationDelay:"0.24s",fontFamily:"Inter,sans-serif"}}>
+        <p className="anim-fadeUp lews-hero-sub" style={{color:"rgba(255,255,255,0.85)",fontSize:"clamp(13px,3vw,18px)",fontWeight:700,letterSpacing:4,textTransform:"uppercase",marginBottom:20,animationDelay:"0.24s",fontFamily:"Inter,sans-serif"}}>
           WITH CONFIDENCE
         </p>
-        <p className="anim-fadeUp" style={{color:"rgba(255,255,255,0.45)",fontSize:14,marginBottom:40,animationDelay:"0.3s",fontFamily:"Inter,sans-serif"}}>
+        <p className="anim-fadeUp lews-hero-tagline" style={{color:"rgba(255,255,255,0.45)",fontSize:14,marginBottom:40,animationDelay:"0.3s",fontFamily:"Inter,sans-serif"}}>
           Learn &nbsp;|&nbsp; Practice &nbsp;|&nbsp; Speak &nbsp;|&nbsp; Succeed
         </p>
 
         {/* 50 DAYS BADGE */}
         <div className="anim-scaleIn anim-float" style={{display:"inline-block",marginBottom:36,animationDelay:"0.38s"}}>
-          <div style={{background:C.white,borderRadius:18,padding:"18px 48px",display:"inline-block",border:`3px solid ${C.goldLight}`}}>
+          <div className="lews-badge-wrap" style={{background:C.white,borderRadius:18,padding:"18px 48px",display:"inline-block",border:`3px solid ${C.goldLight}`}}>
             <p style={{color:C.navy,fontSize:"clamp(30px,7vw,52px)",fontWeight:900,margin:0,fontFamily:"Playfair Display,serif",letterSpacing:-1}}>50 DAYS</p>
           </div>
           <div style={{background:C.gold,borderRadius:10,padding:"7px 24px",marginTop:-6}}>
@@ -546,9 +696,9 @@ export default function App() {
         </div>
 
         {/* FEATURES */}
-        <div className="anim-fadeUp" style={{background:"rgba(255,255,255,0.06)",backdropFilter:"blur(4px)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:20,padding:"24px 20px",margin:"0 auto",maxWidth:620,display:"flex",justifyContent:"space-around",flexWrap:"wrap",gap:20,animationDelay:"0.44s"}}>
+        <div className="anim-fadeUp lews-features" style={{background:"rgba(255,255,255,0.06)",backdropFilter:"blur(4px)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:20,padding:"24px 20px",margin:"0 auto",maxWidth:620,display:"flex",justifyContent:"space-around",flexWrap:"wrap",gap:20,animationDelay:"0.44s"}}>
           {FEATURES.map(f=>(
-            <div key={f.label} className="feature-card" style={{textAlign:"center",minWidth:90}}>
+            <div key={f.label} className="feature-card lews-feature-item" style={{textAlign:"center",minWidth:90}}>
               <div className="feature-icon" style={{fontSize:30,marginBottom:8}}>{f.icon}</div>
               <p style={{fontSize:11,fontWeight:700,color:"rgba(255,255,255,0.8)",margin:0,textTransform:"uppercase",lineHeight:1.4,fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>{f.label}</p>
             </div>
@@ -557,7 +707,7 @@ export default function App() {
 
         {/* CTA */}
         <div className="anim-fadeUp" style={{marginTop:40,animationDelay:"0.52s"}}>
-          <button className="btn-glow anim-pulse" onClick={()=>setView("register")}
+          <button className="btn-glow anim-pulse lews-hero-cta" onClick={()=>setView("register")}
             style={{background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,color:C.navy,border:"none",borderRadius:16,padding:"18px 52px",fontSize:18,fontWeight:900,cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:0.5,display:"inline-flex",alignItems:"center",gap:10}}>
             <WaveBars/> Book Your Seat Now <WaveBars/>
           </button>
@@ -566,25 +716,25 @@ export default function App() {
       </div>
 
       {/* STATS */}
-      <div style={{background:C.gold,padding:"28px 20px"}}>
-        <div style={{maxWidth:680,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,textAlign:"center"}}>
+      <div className="lews-section" style={{background:C.gold,padding:"28px 20px"}}>
+        <div className="lews-stats-grid" style={{maxWidth:680,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,textAlign:"center"}}>
           {[["2400","+ Students","enrolled"],["96","%  Satisfaction","rate"],["50","Day","programme"],["999","₹ Only","course fee"]].map(([n,s,l])=>(
             <div key={s}>
               <div style={{fontSize:"clamp(22px,4vw,32px)",fontWeight:900,color:C.navy,fontFamily:"Playfair Display,serif",lineHeight:1}}>
                 <Counter to={parseInt(n)}/>{s.includes("%") ? "%" : s.includes("+") ? "+" : ""}
               </div>
-              <div style={{fontSize:12,color:"rgba(15,36,71,0.65)",marginTop:4,fontWeight:600,fontFamily:"Inter,sans-serif",textTransform:"uppercase",letterSpacing:0.5}}>{l}</div>
+              <div className="lews-stats-label" style={{fontSize:12,color:"rgba(15,36,71,0.65)",marginTop:4,fontWeight:600,fontFamily:"Inter,sans-serif",textTransform:"uppercase",letterSpacing:0.5}}>{l}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* CLASS INFO */}
-      <div style={{background:C.navy,padding:"44px 20px"}}>
+      <div className="lews-section" style={{background:C.navy,padding:"44px 20px"}}>
         <div style={{maxWidth:680,margin:"0 auto"}}>
           <p style={{color:C.goldLight,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,textAlign:"center",marginBottom:8,fontWeight:700,fontFamily:"Inter,sans-serif"}}>Class Schedule</p>
           <h2 style={{fontFamily:"Playfair Display,serif",color:C.white,textAlign:"center",fontSize:"clamp(22px,4vw,32px)",fontWeight:900,marginBottom:32}}>Everything You Need to Know</h2>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:16}}>
+          <div className="lews-info-grid" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:16}}>
             {INFO.map((item,i)=>(
               <div key={item.top} className="card-hover anim-fadeUp" style={{background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:16,padding:"22px 14px",textAlign:"center",animationDelay:`${i*0.08}s`}}>
                 <div style={{fontSize:28,marginBottom:10}}>{item.icon}</div>
@@ -597,11 +747,11 @@ export default function App() {
       </div>
 
       {/* 3 CARDS */}
-      <div style={{background:C.cream,padding:"56px 20px"}}>
+      <div className="lews-section" style={{background:C.cream,padding:"56px 20px"}}>
         <div style={{maxWidth:680,margin:"0 auto"}}>
           <p style={{color:C.gold,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,textAlign:"center",marginBottom:8,fontWeight:700,fontFamily:"Inter,sans-serif"}}>Act Fast</p>
           <h2 style={{fontFamily:"Playfair Display,serif",color:C.navy,textAlign:"center",fontSize:"clamp(22px,4vw,32px)",fontWeight:900,marginBottom:32}}>Class Details at a Glance</h2>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:16}}>
+          <div className="lews-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:16}}>
             {[
               {bg:C.navyDark,label:"Starts From",val:"15 / 6 / 26",sub:"Monday",lc:"rgba(255,255,255,0.5)",vc:C.white,sc:C.goldLight},
               {bg:C.gold,    label:"Limited Seats",val:"🪑",sub:"Small batch · Personal attention",lc:"rgba(15,36,71,0.6)",vc:C.navy,sc:"rgba(15,36,71,0.7)"},
@@ -652,25 +802,25 @@ export default function App() {
         <p className="anim-fadeUp" style={{color:C.goldLight,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,marginBottom:12,fontWeight:700,fontFamily:"Inter,sans-serif"}}>Don't Miss Out</p>
         <h2 className="anim-fadeUp" style={{fontFamily:"Playfair Display,serif",color:C.white,fontSize:"clamp(24px,5vw,40px)",fontWeight:900,marginBottom:12,animationDelay:"0.08s"}}>LIMITED SEATS</h2>
         <p className="anim-fadeUp" style={{color:"rgba(255,255,255,0.6)",fontSize:15,marginBottom:36,animationDelay:"0.16s",fontFamily:"Inter,sans-serif"}}>Hurry — small batch fills up fast. Reserve yours today.</p>
-        <button className="btn-glow anim-pulse" onClick={()=>setView("register")} style={{background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,color:C.navy,border:"none",borderRadius:16,padding:"18px 52px",fontSize:17,fontWeight:900,cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>
+        <button className="btn-glow anim-pulse lews-banner-cta" onClick={()=>setView("register")} style={{background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,color:C.navy,border:"none",borderRadius:16,padding:"18px 52px",fontSize:17,fontWeight:900,cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>
           Book Your Seat Now →
         </button>
       </div>
 
       {/* CONTACT */}
       <div style={{background:C.navyDark,padding:"36px 24px"}}>
-        <div style={{maxWidth:640,margin:"0 auto",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:20}}>
+        <div className="lews-contact" style={{maxWidth:640,margin:"0 auto",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:20}}>
           <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>
             <div>
               <p style={{color:C.gold,fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:1,margin:"0 0 4px",fontFamily:"Inter,sans-serif"}}>📧 Email</p>
-              <p style={{color:"rgba(255,255,255,0.8)",fontSize:13,margin:0,fontFamily:"Inter,sans-serif"}}>learnenglishwithshas@gmail.com</p>
+              <p style={{color:"rgba(255,255,255,0.8)",fontSize:13,margin:0,fontFamily:"Inter,sans-serif",wordBreak:"break-word"}}>learnenglishwithshas@gmail.com</p>
             </div>
             <div>
               <p style={{color:C.gold,fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:1,margin:"0 0 4px",fontFamily:"Inter,sans-serif"}}>📸 Instagram</p>
               <p style={{color:"rgba(255,255,255,0.8)",fontSize:13,margin:0,fontFamily:"Inter,sans-serif"}}>@learn.with.shas</p>
             </div>
           </div>
-          <button className="btn-glow" onClick={()=>setView("register")}
+          <button className="btn-glow lews-contact-btn" onClick={()=>setView("register")}
             style={{background:C.gold,color:C.navy,border:"none",borderRadius:10,padding:"11px 22px",fontSize:13,fontWeight:800,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
             Book Seat →
           </button>
@@ -684,6 +834,6 @@ export default function App() {
         </p>
         <p style={{color:"rgba(255,255,255,0.35)",fontSize:11,marginTop:6,margin:"6px 0 0",fontFamily:"Inter,sans-serif",letterSpacing:1}}>CONSISTENCY TODAY · CONFIDENCE TOMORROW</p>
       </div>
-    </>
+    </div>
   );
 }
