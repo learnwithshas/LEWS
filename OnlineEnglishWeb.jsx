@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 
 /* ── PALETTE ─────────────────────────────────────── */
 const C = {
@@ -279,25 +279,7 @@ function WaveBars() {
   );
 }
 
-/* ── COUNTER ──────────────────────────────────────── */
-function Counter({to, suffix=""}) {
-  const [val, setVal] = useState(0);
-  const ref = useRef(null);
-  useEffect(()=>{
-    const obs = new IntersectionObserver(([e])=>{
-      if(e.isIntersecting){
-        let start=0; const step=Math.ceil(to/40);
-        const t=setInterval(()=>{ start+=step; if(start>=to){setVal(to);clearInterval(t);}else setVal(start); },30);
-        obs.disconnect();
-      }
-    },{threshold:0.4});
-    if(ref.current) obs.observe(ref.current);
-    return()=>obs.disconnect();
-  },[to]);
-  return <span ref={ref} style={{animation:"countUp 0.4s ease both"}}>{val}{suffix}</span>;
-}
-
-/* ── STEP INDICATOR ───────────────────────────────── */
+/* ── WAVE BARS (decorative) ───────────────────────── */
 const STEPS = ["Your Details","Review & Pay"];
 function StepBar({step}) {
   return (
@@ -410,12 +392,6 @@ const FEATURES = [
   {icon:"🎤",label:"Clear Pronunciation"},
   {icon:"👥",label:"Real Conversations"},
   {icon:"🎯",label:"Build Confidence"},
-];
-const INFO = [
-  {icon:"📅",top:"MON TO FRIDAY",bottom:"Weekdays Only"},
-  {icon:"🕗",top:"8:00 – 9:00 PM",bottom:"1 Hour Daily"},
-  {icon:"🎥",top:"Google Meet",bottom:"Live Classes"},
-  {icon:"🗓",top:"Total Duration",bottom:"50 Days"},
 ];
 
 /* ════════════════════════════════════════════════════
@@ -715,37 +691,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* STATS */}
-      <div className="lews-section" style={{background:C.gold,padding:"28px 20px"}}>
-        <div className="lews-stats-grid" style={{maxWidth:680,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,textAlign:"center"}}>
-          {[["2400","+ Students","enrolled"],["96","%  Satisfaction","rate"],["50","Day","programme"],["999","₹ Only","course fee"]].map(([n,s,l])=>(
-            <div key={s}>
-              <div style={{fontSize:"clamp(22px,4vw,32px)",fontWeight:900,color:C.navy,fontFamily:"Playfair Display,serif",lineHeight:1}}>
-                <Counter to={parseInt(n)}/>{s.includes("%") ? "%" : s.includes("+") ? "+" : ""}
-              </div>
-              <div className="lews-stats-label" style={{fontSize:12,color:"rgba(15,36,71,0.65)",marginTop:4,fontWeight:600,fontFamily:"Inter,sans-serif",textTransform:"uppercase",letterSpacing:0.5}}>{l}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* CLASS INFO */}
-      <div className="lews-section" style={{background:C.navy,padding:"44px 20px"}}>
-        <div style={{maxWidth:680,margin:"0 auto"}}>
-          <p style={{color:C.goldLight,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,textAlign:"center",marginBottom:8,fontWeight:700,fontFamily:"Inter,sans-serif"}}>Class Schedule</p>
-          <h2 style={{fontFamily:"Playfair Display,serif",color:C.white,textAlign:"center",fontSize:"clamp(22px,4vw,32px)",fontWeight:900,marginBottom:32}}>Everything You Need to Know</h2>
-          <div className="lews-info-grid" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:16}}>
-            {INFO.map((item,i)=>(
-              <div key={item.top} className="card-hover anim-fadeUp" style={{background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:16,padding:"22px 14px",textAlign:"center",animationDelay:`${i*0.08}s`}}>
-                <div style={{fontSize:28,marginBottom:10}}>{item.icon}</div>
-                <p style={{color:C.white,fontSize:13,fontWeight:700,margin:"0 0 4px",fontFamily:"Inter,sans-serif"}}>{item.top}</p>
-                <p style={{color:C.goldLight,fontSize:11,fontWeight:700,margin:0,textTransform:"uppercase",letterSpacing:0.8,fontFamily:"Inter,sans-serif"}}>{item.bottom}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* 3 CARDS */}
       <div className="lews-section" style={{background:C.cream,padding:"56px 20px"}}>
         <div style={{maxWidth:680,margin:"0 auto"}}>
@@ -774,9 +719,9 @@ export default function App() {
           <h2 style={{fontFamily:"Playfair Display,serif",color:C.navy,textAlign:"center",fontSize:"clamp(22px,4vw,30px)",fontWeight:900,marginBottom:32}}>What Our Learners Say</h2>
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:16}}>
             {[
-              {name:"Priya S.",role:"Marketing Executive",q:"In three months I was presenting in English at work. The conversations felt so natural!"},
-              {name:"Arun K.",role:"IELTS Candidate",q:"Scored 7.5 on my first attempt. Every session was focused and practical."},
-              {name:"Meena R.",role:"Parent",q:"My daughter went from shy to reading stories aloud in just six weeks. Worth every rupee!"},
+              {name:"Priya S.",role:"Marketing Executive",q:"In three months I was presenting in English at work.Now I'm able to express myself clearly! Looking forward to the next session."},
+              {name:"Arun K.",role:"CRO",q:"Initially I was afraid to speak in front of others. After attending this session,I gained confidence. Got a job in Dubai after clearing the interview."},
+              {name:"Meena R.",role:"Team Lead",q:"Basically, I'm a shy person and I was afraid to speak in front of others. But after attending the English class, i organized a team meeting in English and now i'm confident to speak in front of others."},
             ].map((t,i)=>(
               <div key={t.name} className="card-hover anim-fadeUp" style={{background:C.white,borderRadius:18,padding:"24px 20px",border:`1px solid ${C.creamMid}`,animationDelay:`${i*0.1}s`}}>
                 <div style={{color:C.gold,fontSize:18,marginBottom:12,letterSpacing:2}}>★★★★★</div>
