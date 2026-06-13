@@ -310,6 +310,27 @@ function StepBar({step}) {
 const UPI_ID = "anushaselvan123-1@oksbi";
 const GPayQR = "/gpay-qr.png";
 
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result;
+      if (typeof result !== "string" || !result.includes(",")) {
+        reject(new Error("Could not read image file"));
+        return;
+      }
+      resolve(result.split(",")[1]);
+    };
+    reader.onerror = () => reject(new Error("Could not read image file"));
+    reader.readAsDataURL(file);
+  });
+}
+
+function isImageFile(file) {
+  if (file.type && file.type.startsWith("image/")) return true;
+  return /\.(jpe?g|png|webp|heic|heif)$/i.test(file.name || "");
+}
+
 function PaymentQR({ compact = false }) {
   const size = compact ? 130 : 168;
   return (
@@ -407,7 +428,8 @@ export default function App() {
   const [submitError,setSubmitError]=useState("");
   const [paymentScreenshot,setPaymentScreenshot]=useState(null);
   const [screenshotPreview,setScreenshotPreview]=useState(null);
-  const screenshotRef=useRef(null);
+  const galleryRef=useRef(null);
+  const cameraRef=useRef(null);
 
   useEffect(()=>()=>{ if(screenshotPreview) URL.revokeObjectURL(screenshotPreview); },[screenshotPreview]);
 
@@ -415,8 +437,9 @@ export default function App() {
     const file=e.target.files?.[0];
     setSubmitError("");
     setErrors(x=>({...x,screenshot:""}));
+    e.target.value="";
     if(!file) return;
-    if(!file.type.startsWith("image/")){
+    if(!isImageFile(file)){
       setErrors(x=>({...x,screenshot:"Please upload an image (JPG, PNG, etc.)"}));
       return;
     }
@@ -434,7 +457,8 @@ export default function App() {
     setPaymentScreenshot(null);
     setScreenshotPreview(null);
     setErrors(x=>({...x,screenshot:""}));
-    if(screenshotRef.current) screenshotRef.current.value="";
+    if(galleryRef.current) galleryRef.current.value="";
+    if(cameraRef.current) cameraRef.current.value="";
   }
 
   function resetRegistration(){
@@ -450,12 +474,12 @@ export default function App() {
     if(!validate()) return;
     const accessKey=import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
     const sheetUrl=import.meta.env.VITE_GOOGLE_SHEET_URL;
-    if(accessKey&&!paymentScreenshot){
+    if(!paymentScreenshot){
       setSubmitError("Please upload your payment screenshot before confirming.");
       return;
     }
-    if(!accessKey&&!sheetUrl){
-      setSubmitError("Registration is not set up yet. Please contact learnenglishwithshas@gmail.com.");
+    if(!sheetUrl){
+      setSubmitError("Screenshot upload is not set up yet. Please contact learnenglishwithshas@gmail.com.");
       return;
     }
     setSubmitting(true);
@@ -468,43 +492,45 @@ export default function App() {
       course:"Speak English With Confidence",
       fee:"₹300 initial",
     };
-    const message=[
-      `Name: ${form.name}`,
-      `Email: ${form.email}`,
-      `WhatsApp: ${form.phone}`,
-      `City: ${form.city}`,
-      `Course: ${payload.course}`,
-      `Initial fee: ${payload.fee}`,
-      `Payment screenshot: attached`,
-    ].join("\n");
-    const logToSheet=sheetUrl
-      ?fetch(sheetUrl,{
-        method:"POST",
-        mode:"no-cors",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify(payload),
-      })
-      :null;
     try{
+      const imageBase64=await fileToBase64(paymentScreenshot);
+      const sheetRes=await fetch(sheetUrl,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          ...payload,
+          imageBase64,
+          imageName:paymentScreenshot.name||"payment.jpg",
+        }),
+      });
+      const sheetData=await sheetRes.json();
+      if(!sheetData.success) throw new Error(sheetData.message||"Could not save registration");
+      const screenshotUrl=sheetData.screenshotUrl||"";
       if(accessKey){
-        const body=new FormData();
-        body.append("access_key",accessKey);
-        body.append("subject",`New course registration: ${form.name}`);
-        body.append("from_name",form.name);
-        body.append("name",form.name);
-        body.append("email",form.email);
-        body.append("phone",form.phone);
-        body.append("city",form.city);
-        body.append("message",message);
-        body.append("attachment",paymentScreenshot,paymentScreenshot.name);
         const res=await fetch("https://api.web3forms.com/submit",{
           method:"POST",
-          body,
+          headers:{"Content-Type":"application/json",Accept:"application/json"},
+          body:JSON.stringify({
+            access_key:accessKey,
+            subject:`New course registration: ${form.name}`,
+            from_name:form.name,
+            email:form.email,
+            phone:form.phone,
+            city:form.city,
+            message:[
+              `Name: ${form.name}`,
+              `Email: ${form.email}`,
+              `WhatsApp: ${form.phone}`,
+              `City: ${form.city}`,
+              `Course: ${payload.course}`,
+              `Initial fee: ${payload.fee}`,
+              screenshotUrl?`Payment screenshot: ${screenshotUrl}`:"Payment screenshot: saved in Google Sheet",
+            ].join("\n"),
+          }),
         });
         const data=await res.json();
         if(!data.success) throw new Error(data.message||"Submission failed");
       }
-      if(logToSheet) await logToSheet;
       clearScreenshot();
       setView("success");
     }catch(err){
@@ -649,10 +675,18 @@ export default function App() {
                   ):(
                     <>
                       <p style={{color:C.textMute,fontSize:12,margin:"0 0 12px",fontFamily:"Inter,sans-serif"}}>JPG or PNG · max 5 MB</p>
-                      <label style={{display:"inline-block",background:C.navy,color:C.goldLight,borderRadius:10,padding:"12px 20px",fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
-                        Choose screenshot
-                        <input ref={screenshotRef} type="file" accept="image/*" capture="environment" onChange={handleScreenshotPick} style={{display:"none"}}/>
-                      </label>
+                      <input ref={galleryRef} type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" onChange={handleScreenshotPick} style={{display:"none"}}/>
+                      <input ref={cameraRef} type="file" accept="image/*" capture="environment" onChange={handleScreenshotPick} style={{display:"none"}}/>
+                      <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}>
+                        <button type="button" onClick={()=>galleryRef.current?.click()}
+                          style={{background:C.navy,color:C.goldLight,border:"none",borderRadius:10,padding:"12px 18px",fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
+                          📁 From gallery
+                        </button>
+                        <button type="button" onClick={()=>cameraRef.current?.click()}
+                          style={{background:"transparent",color:C.navy,border:`2px solid ${C.navyMid}`,borderRadius:10,padding:"12px 18px",fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
+                          📷 Take photo
+                        </button>
+                      </div>
                     </>
                   )}
                   {errors.screenshot&&<p style={{...errS,textAlign:"center",marginTop:10}}>{errors.screenshot}</p>}
