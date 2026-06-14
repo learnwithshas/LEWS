@@ -391,34 +391,51 @@ async function uploadToGoogleSheet(sheetUrl, payload) {
   return data;
 }
 
-async function sendWeb3FormsEmail(accessKey, form, payload, screenshotUrl, screenshotFailed) {
-  const res = await fetch("https://api.web3forms.com/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({
-      access_key: accessKey,
-      subject: `New course registration: ${form.name}`,
-      from_name: form.name,
-      email: form.email,
-      phone: form.phone,
-      city: form.city,
-      message: [
-        `Name: ${form.name}`,
-        `Email: ${form.email}`,
-        `WhatsApp: ${form.phone}`,
-        `City: ${form.city}`,
-        `Course: ${payload.course}`,
-        `Initial fee: ${payload.fee}`,
-        screenshotUrl
-          ? `Payment screenshot: ${screenshotUrl}`
-          : screenshotFailed
-            ? "Payment screenshot: upload failed — ask student to email learnenglishwithshas@gmail.com"
-            : "Payment screenshot: not uploaded",
-      ].join("\n"),
-    }),
-  });
+async function sendWeb3FormsEmail(accessKey, form, payload, screenshotUrl, screenshotFailed, captchaToken = "") {
+  const body = new FormData();
+  body.append("access_key", accessKey);
+  body.append("subject", `Course registration – ${form.name}`);
+  body.append("name", form.name);
+  body.append("from_name", form.name);
+  body.append("email", form.email);
+  body.append("replyto", form.email);
+  body.append("phone", form.phone);
+  body.append("city", form.city);
+  body.append("course", payload.course);
+  body.append("fee", payload.fee);
+  body.append("botcheck", "");
+  if (screenshotUrl) body.append("screenshot_link", screenshotUrl);
+  if (captchaToken) body.append("h-captcha-response", captchaToken);
+
+  const lines = [
+    "New student registration",
+    "",
+    `Name: ${form.name}`,
+    `Email: ${form.email}`,
+    `WhatsApp: ${form.phone}`,
+    `City: ${form.city}`,
+    `Course: ${payload.course}`,
+    `Fee: ${payload.fee}`,
+  ];
+  if (screenshotUrl) lines.push("Payment screenshot: see screenshot_link field above.");
+  else if (screenshotFailed) lines.push("Payment screenshot: please follow up with the student.");
+  body.append("message", lines.join("\n"));
+
+  const res = await fetch("https://api.web3forms.com/submit", { method: "POST", body });
   const data = await res.json();
-  if (!data.success) throw new Error(data.message || "Email notification failed");
+  if (!data.success) {
+    const msg = data.message || "Email notification failed";
+    if (/spam/i.test(msg)) throw new Error("SPAM_BLOCKED");
+    throw new Error(msg);
+  }
+}
+
+function getHCaptchaToken() {
+  return document.querySelector('textarea[name="h-captcha-response"]')?.value || "";
+}
+
+function isSpamBlockedError(err) {
+  return String(err?.message || err) === "SPAM_BLOCKED" || /marked as spam/i.test(String(err?.message || err));
 }
 
 function isImageFile(file) {
@@ -525,6 +542,18 @@ export default function App() {
   const [paymentScreenshot,setPaymentScreenshot]=useState(null);
   const [screenshotPreview,setScreenshotPreview]=useState(null);
 
+  useEffect(()=>{
+    if(view!=="register"||step!==1) return;
+    const id="web3forms-captcha-script";
+    if(document.getElementById(id)) return;
+    const s=document.createElement("script");
+    s.id=id;
+    s.src="https://web3forms.com/client/script.js";
+    s.async=true;
+    s.defer=true;
+    document.body.appendChild(s);
+  },[view,step]);
+
   useEffect(()=>()=>{ if(screenshotPreview) URL.revokeObjectURL(screenshotPreview); },[screenshotPreview]);
 
   function handleScreenshotPick(e){
@@ -610,7 +639,25 @@ export default function App() {
         }
       }
       if(accessKey){
-        await sendWeb3FormsEmail(accessKey,form,payload,screenshotUrl,screenshotFailed);
+        const captchaToken=getHCaptchaToken();
+        if(document.querySelector('textarea[name="h-captcha-response"]')&&!captchaToken){
+          setSubmitError("Please complete the security check below, then try again.");
+          return;
+        }
+        try{
+          await sendWeb3FormsEmail(accessKey,form,payload,screenshotUrl,screenshotFailed,captchaToken);
+        }catch(emailErr){
+          if(screenshotUrl&&!screenshotFailed){
+            setRegistrationNote("Registration saved in Google Sheet. Email was blocked — open your sheet for the screenshot link.");
+            clearScreenshot();
+            setView("success");
+            return;
+          }
+          if(isSpamBlockedError(emailErr)){
+            throw new Error("Email blocked as spam. In Web3Forms dashboard enable hCaptcha, complete the check below, and try again.");
+          }
+          throw emailErr;
+        }
       }
       setRegistrationNote(
         screenshotFailed
@@ -779,6 +826,9 @@ export default function App() {
                     </>
                   )}
                   {errors.screenshot&&<p style={{...errS,textAlign:"center",marginTop:10}}>{errors.screenshot}</p>}
+                </div>
+                <div style={{display:"flex",justifyContent:"center",marginBottom:16}}>
+                  <div className="h-captcha" data-captcha="true" data-size="compact" />
                 </div>
                 {submitError&&<p style={{...errS,textAlign:"center",marginBottom:12}}>{submitError}</p>}
                 <div className="lews-action-btns" style={{display:"flex",gap:10}}>
