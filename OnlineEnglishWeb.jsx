@@ -524,8 +524,6 @@ export default function App() {
   const [registrationNote,setRegistrationNote]=useState("");
   const [paymentScreenshot,setPaymentScreenshot]=useState(null);
   const [screenshotPreview,setScreenshotPreview]=useState(null);
-  const galleryRef=useRef(null);
-  const cameraRef=useRef(null);
 
   useEffect(()=>()=>{ if(screenshotPreview) URL.revokeObjectURL(screenshotPreview); },[screenshotPreview]);
 
@@ -553,8 +551,6 @@ export default function App() {
     setPaymentScreenshot(null);
     setScreenshotPreview(null);
     setErrors(x=>({...x,screenshot:""}));
-    if(galleryRef.current) galleryRef.current.value="";
-    if(cameraRef.current) cameraRef.current.value="";
   }
 
   function resetRegistration(){
@@ -775,18 +771,11 @@ export default function App() {
                   ):(
                     <>
                       <p style={{color:C.textMute,fontSize:12,margin:"0 0 12px",fontFamily:"Inter,sans-serif"}}>JPG or PNG · max 5 MB</p>
-                      <input ref={galleryRef} type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" onChange={handleScreenshotPick} style={{display:"none"}}/>
-                      <input ref={cameraRef} type="file" accept="image/*" capture="environment" onChange={handleScreenshotPick} style={{display:"none"}}/>
-                      <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}>
-                        <button type="button" onClick={()=>galleryRef.current?.click()}
-                          style={{background:C.navy,color:C.goldLight,border:"none",borderRadius:10,padding:"12px 18px",fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
-                          📁 From gallery
-                        </button>
-                        <button type="button" onClick={()=>cameraRef.current?.click()}
-                          style={{background:"transparent",color:C.navy,border:`2px solid ${C.navyMid}`,borderRadius:10,padding:"12px 18px",fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
-                          📷 Take photo
-                        </button>
-                      </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleScreenshotPick}
+                      />
                     </>
                   )}
                   {errors.screenshot&&<p style={{...errS,textAlign:"center",marginTop:10}}>{errors.screenshot}</p>}
