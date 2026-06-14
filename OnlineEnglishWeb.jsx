@@ -326,6 +326,101 @@ function fileToBase64(file) {
   });
 }
 
+async function compressImage(file, maxWidth = 1200, quality = 0.82) {
+  if (!file.type.startsWith("image/") && !isImageFile(file)) return file;
+  try {
+    return await new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        let { width, height } = img;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+            const base = (file.name || "payment").replace(/\.[^.]+$/, "");
+            resolve(new File([blob], `${base}.jpg`, { type: "image/jpeg" }));
+          },
+          "image/jpeg",
+          quality
+        );
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        resolve(file);
+      };
+      img.src = url;
+    });
+  } catch {
+    return file;
+  }
+}
+
+async function uploadToGoogleSheet(sheetUrl, payload) {
+  const res = await fetch(sheetUrl, {
+    method: "POST",
+    redirect: "follow",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload),
+  });
+  const text = await res.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    throw new Error(
+      res.ok
+        ? "Google Sheet returned an invalid response. Redeploy Apps Script as a new version."
+        : "Google Sheet upload failed. In Apps Script: Deploy → set Who has access to Anyone → Deploy again."
+    );
+  }
+  if (!res.ok || !data.success) {
+    throw new Error(data.message || "Could not save registration to Google Sheet");
+  }
+  return data;
+}
+
+async function sendWeb3FormsEmail(accessKey, form, payload, screenshotUrl, screenshotFailed) {
+  const res = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      access_key: accessKey,
+      subject: `New course registration: ${form.name}`,
+      from_name: form.name,
+      email: form.email,
+      phone: form.phone,
+      city: form.city,
+      message: [
+        `Name: ${form.name}`,
+        `Email: ${form.email}`,
+        `WhatsApp: ${form.phone}`,
+        `City: ${form.city}`,
+        `Course: ${payload.course}`,
+        `Initial fee: ${payload.fee}`,
+        screenshotUrl
+          ? `Payment screenshot: ${screenshotUrl}`
+          : screenshotFailed
+            ? "Payment screenshot: upload failed — ask student to email learnenglishwithshas@gmail.com"
+            : "Payment screenshot: not uploaded",
+      ].join("\n"),
+    }),
+  });
+  const data = await res.json();
+  if (!data.success) throw new Error(data.message || "Email notification failed");
+}
+
 function isImageFile(file) {
   if (file.type && file.type.startsWith("image/")) return true;
   return /\.(jpe?g|png|webp|heic|heif)$/i.test(file.name || "");
@@ -426,6 +521,7 @@ export default function App() {
   const [hovBtn,setHovBtn]=useState(false);
   const [submitting,setSubmitting]=useState(false);
   const [submitError,setSubmitError]=useState("");
+  const [registrationNote,setRegistrationNote]=useState("");
   const [paymentScreenshot,setPaymentScreenshot]=useState(null);
   const [screenshotPreview,setScreenshotPreview]=useState(null);
   const galleryRef=useRef(null);
@@ -467,6 +563,7 @@ export default function App() {
     setStep(0);
     setForm({name:"",email:"",phone:"",city:""});
     setSubmitError("");
+    setRegistrationNote("");
   }
 
   function update(f,v){setForm(x=>({...x,[f]:v}));setErrors(e=>({...e,[f]:""}))}
@@ -493,48 +590,46 @@ export default function App() {
       fee:"₹300 initial",
     };
     try{
-      const imageBase64=await fileToBase64(paymentScreenshot);
-      const sheetRes=await fetch(sheetUrl,{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          ...payload,
-          imageBase64,
-          imageName:paymentScreenshot.name||"payment.jpg",
-        }),
-      });
-      const sheetData=await sheetRes.json();
-      if(!sheetData.success) throw new Error(sheetData.message||"Could not save registration");
-      const screenshotUrl=sheetData.screenshotUrl||"";
-      if(accessKey){
-        const res=await fetch("https://api.web3forms.com/submit",{
-          method:"POST",
-          headers:{"Content-Type":"application/json",Accept:"application/json"},
-          body:JSON.stringify({
-            access_key:accessKey,
-            subject:`New course registration: ${form.name}`,
-            from_name:form.name,
-            email:form.email,
-            phone:form.phone,
-            city:form.city,
-            message:[
-              `Name: ${form.name}`,
-              `Email: ${form.email}`,
-              `WhatsApp: ${form.phone}`,
-              `City: ${form.city}`,
-              `Course: ${payload.course}`,
-              `Initial fee: ${payload.fee}`,
-              screenshotUrl?`Payment screenshot: ${screenshotUrl}`:"Payment screenshot: saved in Google Sheet",
-            ].join("\n"),
-          }),
-        });
-        const data=await res.json();
-        if(!data.success) throw new Error(data.message||"Submission failed");
+      const compressed=await compressImage(paymentScreenshot);
+      const imageBase64=await fileToBase64(compressed);
+      const sheetPayload={
+        ...payload,
+        imageBase64,
+        imageName:compressed.name||"payment.jpg",
+      };
+      let screenshotUrl="";
+      let screenshotFailed=false;
+      try{
+        const sheetData=await uploadToGoogleSheet(sheetUrl,sheetPayload);
+        screenshotUrl=sheetData.screenshotUrl||"";
+      }catch(sheetErr){
+        screenshotFailed=true;
+        const isNetwork=/failed to fetch|network|401|403|404/i.test(String(sheetErr.message));
+        if(!accessKey){
+          throw new Error(
+            isNetwork
+              ? "Could not reach Google Sheet. Redeploy Apps Script with Who has access: Anyone, then update VITE_GOOGLE_SHEET_URL."
+              : sheetErr.message
+          );
+        }
       }
+      if(accessKey){
+        await sendWeb3FormsEmail(accessKey,form,payload,screenshotUrl,screenshotFailed);
+      }
+      setRegistrationNote(
+        screenshotFailed
+          ? "Registration received! Please also email your payment screenshot to learnenglishwithshas@gmail.com."
+          : ""
+      );
       clearScreenshot();
       setView("success");
     }catch(err){
-      setSubmitError(err.message||"Could not send registration. Please email learnenglishwithshas@gmail.com instead.");
+      const msg=String(err.message||err);
+      setSubmitError(
+        /failed to fetch/i.test(msg)
+          ? "Connection failed. Redeploy Google Apps Script (Who has access: Anyone) and restart the site after updating .env."
+          : msg||"Could not send registration. Please email learnenglishwithshas@gmail.com instead."
+      );
     }finally{
       setSubmitting(false);
     }
@@ -578,6 +673,11 @@ export default function App() {
             <p style={{color:"rgba(255,255,255,0.75)",fontSize:12,margin:0}}>🕗 8:00 – 9:00 PM · Google Meet link via WhatsApp: <strong>{form.phone}</strong></p>
           </div>
           <WelcomeGuide name={form.name.split(" ")[0]}/>
+          {registrationNote&&(
+            <p style={{background:C.goldPale,border:`1px solid ${C.gold}`,borderRadius:10,padding:"12px 14px",color:C.navy,fontSize:13,lineHeight:1.6,margin:"0 0 16px",fontFamily:"Inter,sans-serif"}}>
+              {registrationNote}
+            </p>
+          )}
           <button className="btn-glow anim-pulse" onClick={resetRegistration}
             style={{width:"100%",marginTop:24,background:C.navy,color:C.goldLight,border:"none",borderRadius:12,padding:"13px 36px",fontSize:15,cursor:"pointer",fontFamily:"Inter,sans-serif",fontWeight:700,letterSpacing:0.5}}>
             ← Back to Home
