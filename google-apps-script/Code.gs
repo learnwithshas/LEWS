@@ -7,10 +7,17 @@
  * 3. Extensions → Apps Script → paste this file → Save
  * 4. Deploy → New deployment → Web app
  *    - Execute as: Me
- *    - Who has access: Anyone
- * 5. Copy the Web app URL into .env as VITE_GOOGLE_SHEET_URL
- * 6. After any script change: Deploy → Manage deployments → Edit → New version → Deploy
+ *    - Who has access: Anyone  ← required (not "Only myself")
+ * 5. Copy the Web app URL (ends in /exec) into .env as VITE_GOOGLE_SHEET_URL
+ * 6. Test: open the /exec URL in a browser — you should see {"success":true,"message":"LEWS API ready"}
+ * 7. After any script change: Deploy → Manage deployments → Edit → New version → Deploy
  */
+
+function doGet() {
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true, message: "LEWS API ready" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
 
 function doPost(e) {
   try {
