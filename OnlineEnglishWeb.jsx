@@ -2,31 +2,31 @@ import { useState, useRef, useEffect } from "react";
 
 /* ── PALETTE ─────────────────────────────────────── */
 const C = {
-  navy:       "#0F2447",
-  navyDark:   "#0A1A35",
-  navyMid:    "#1A3A6E",
-  navyLight:  "#2A5298",
-  cream:      "#FDF8EE",
-  creamDark:  "#F0E8D0",
-  creamMid:   "#E8DEC0",
-  gold:       "#C9960C",
-  goldLight:  "#F5C842",
-  goldPale:   "#FFF3C0",
-  red:        "#C0392B",
+  navy:       "#0F5C56",
+  navyDark:   "#0A3D3A",
+  navyMid:    "#148F85",
+  navyLight:  "#2AABA0",
+  cream:      "#FFFFFF",
+  creamDark:  "#F3FAF9",
+  creamMid:   "#D5EDEC",
+  gold:       "#0D9488",
+  goldLight:  "#14B8A6",
+  goldPale:   "#CCFBF1",
+  red:        "#DC2626",
   white:      "#FFFFFF",
-  text:       "#1A1A2E",
-  textMute:   "#5A6A8A",
+  text:       "#134E4A",
+  textMute:   "#5B7C79",
 };
 
 /* ── KEYFRAMES injected once ──────────────────────── */
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @keyframes fadeUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
 @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
 @keyframes scaleIn  { from{opacity:0;transform:scale(0.88)} to{opacity:1;transform:scale(1)} }
 @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
-@keyframes pulse    { 0%,100%{box-shadow:0 0 0 0 rgba(197,150,12,0.55)} 70%{box-shadow:0 0 0 14px rgba(197,150,12,0)} }
+@keyframes pulse    { 0%,100%{box-shadow:0 0 0 0 rgba(13,148,136,0.45)} 70%{box-shadow:0 0 0 14px rgba(13,148,136,0)} }
 @keyframes shimmer  { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
 @keyframes spin     { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 @keyframes blink    { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -46,7 +46,7 @@ const CSS = `
   position:relative; overflow:hidden;
   transition: transform 0.15s, box-shadow 0.15s;
 }
-.btn-glow:hover  { transform:translateY(-2px); box-shadow:0 8px 28px rgba(197,150,12,0.45)!important; }
+.btn-glow:hover  { transform:translateY(-2px); box-shadow:0 8px 28px rgba(13,148,136,0.35)!important; }
 .btn-glow:active { transform:scale(0.97); }
 .btn-glow::after {
   content:''; position:absolute; inset:0;
@@ -61,7 +61,7 @@ const CSS = `
 }
 .card-hover:hover {
   transform:translateY(-5px);
-  box-shadow:0 16px 40px rgba(15,36,71,0.18)!important;
+  box-shadow:0 16px 40px rgba(15,92,86,0.12)!important;
 }
 
 .feature-icon {
@@ -73,10 +73,10 @@ const CSS = `
 
 input:focus, textarea:focus {
   border-color: ${C.navyLight} !important;
-  box-shadow: 0 0 0 3px rgba(42,82,152,0.15);
+  box-shadow: 0 0 0 3px rgba(13,148,136,0.18);
 }
 
-html, body { overflow-x: hidden; max-width: 100%; }
+html, body { overflow-x: hidden; max-width: 100%; background: #FFFFFF; }
 
 .lews-page { width: 100%; max-width: 100%; overflow-x: hidden; }
 
@@ -253,12 +253,12 @@ function Particles() {
 
 /* ── TICKER ───────────────────────────────────────── */
 function Ticker() {
-  const items = ["📅 Classes Start 15/6/26","⏰ 8:00 PM – 9:00 PM","🎥 Google Meet Live","🪑 Limited Seats Only","💰 ₹999 Only","🏆 50-Day Programme","📅 Classes Start 15/6/26","⏰ 8:00 PM – 9:00 PM","🎥 Google Meet Live","🪑 Limited Seats Only","💰 ₹999 Only","🏆 50-Day Programme"];
+  const items = ["📅 Classes Start 27/10/26","⏰ 8:00 PM – 9:00 PM","🎥 Google Meet Live","🪑 Limited Seats Only","💰 ₹1199 Only","🏆 45-Day Programme","📅 Classes Start 27/10/26","⏰ 8:00 PM – 9:00 PM","🎥 Google Meet Live","🪑 Limited Seats Only","💰 ₹1199 Only","🏆 45-Day Programme"];
   return (
     <div style={{background:C.gold,overflow:"hidden",padding:"8px 0",whiteSpace:"nowrap"}}>
       <div style={{display:"inline-flex",gap:48,animation:"ticker 22s linear infinite"}}>
         {items.map((t,i)=>(
-          <span key={i} style={{color:C.navy,fontWeight:700,fontSize:13,letterSpacing:0.5}}>{t}</span>
+          <span key={i} style={{color:C.white,fontWeight:700,fontSize:13,letterSpacing:0.5}}>{t}</span>
         ))}
       </div>
     </div>
@@ -271,7 +271,7 @@ function WaveBars() {
     <div style={{display:"flex",alignItems:"center",gap:3,height:32}}>
       {[0,0.15,0.3,0.15,0].map((d,i)=>(
         <div key={i} style={{
-          width:4,borderRadius:2,background:C.goldLight,
+          width:4,borderRadius:2,background:C.white,
           animation:`waveBar 1.1s ${d}s ease-in-out infinite`,
         }}/>
       ))}
@@ -294,7 +294,7 @@ function StepBar({step}) {
               color: i<step?"#fff" : i===step?C.navy:C.textMute,
               display:"flex",alignItems:"center",justifyContent:"center",
               fontSize:13,fontWeight:700,transition:"all 0.35s",
-              boxShadow: i===step?`0 0 0 4px rgba(245,200,66,0.3)`:"none",
+              boxShadow: i===step?`0 0 0 4px rgba(20,184,166,0.3)`:"none",
             }}>{i<step?"✓":i+1}</div>
             <span className="lews-step-label" style={{fontSize:12,color:i===step?C.navy:C.textMute,fontWeight:i===step?700:400}}>{s}</span>
           </div>
@@ -461,7 +461,7 @@ function PaymentQR({ compact = false }) {
           padding: 6,
         }}
       />
-      <p style={{ color: C.textMute, fontSize: 11, margin: "8px 0 0", fontFamily: "Inter,sans-serif" }}>
+      <p style={{ color: C.textMute, fontSize: 11, margin: "8px 0 0", fontFamily: "Plus Jakarta Sans,sans-serif" }}>
         Scan to pay ₹300 via Google Pay
       </p>
     </div>
@@ -470,11 +470,11 @@ function PaymentQR({ compact = false }) {
 
 function WelcomeGuide({ name }) {
   const section = { marginBottom: 18, textAlign: "left" };
-  const heading = { fontSize: 13, fontWeight: 800, color: C.navy, margin: "0 0 8px", fontFamily: "Inter,sans-serif" };
-  const list = { margin: 0, paddingLeft: 18, color: C.textMute, fontSize: 13, lineHeight: 1.75, fontFamily: "Inter,sans-serif" };
+  const heading = { fontSize: 13, fontWeight: 800, color: C.navy, margin: "0 0 8px", fontFamily: "Plus Jakarta Sans,sans-serif" };
+  const list = { margin: 0, paddingLeft: 18, color: C.textMute, fontSize: 13, lineHeight: 1.75, fontFamily: "Plus Jakarta Sans,sans-serif" };
   return (
     <div style={{ textAlign: "left" }}>
-      <p style={{ color: C.textMute, fontSize: 14, lineHeight: 1.75, margin: "0 0 18px", fontFamily: "Inter,sans-serif" }}>
+      <p style={{ color: C.textMute, fontSize: 14, lineHeight: 1.75, margin: "0 0 18px", fontFamily: "Plus Jakarta Sans,sans-serif" }}>
         Good Evening! 😊<br/>
         Thank you for your interest in our Spoken English Course — we're excited to have you on board{name ? `, ${name}` : ""}!
         Here's everything you need to know before we get started:
@@ -510,7 +510,7 @@ function WelcomeGuide({ name }) {
           <li>Tasks and speaking activities are mandatory for the best results</li>
         </ul>
       </div>
-      <p style={{ color: C.textMute, fontSize: 13, lineHeight: 1.75, margin: 0, fontFamily: "Inter,sans-serif" }}>
+      <p style={{ color: C.textMute, fontSize: 13, lineHeight: 1.75, margin: 0, fontFamily: "Plus Jakarta Sans,sans-serif" }}>
         We're here to help you speak with confidence and fluency. See you in class! 🙌<br/>
         <strong style={{ color: C.navy }}>Thank you.</strong>
       </p>
@@ -691,7 +691,7 @@ export default function App() {
     width:"100%",padding:"12px 16px",
     border:`2px solid ${C.creamMid}`,
     borderRadius:10,fontSize:15,background:C.cream,color:C.text,
-    outline:"none",boxSizing:"border-box",fontFamily:"Inter,sans-serif",
+    outline:"none",boxSizing:"border-box",fontFamily:"Plus Jakarta Sans,sans-serif",
     transition:"border-color 0.2s, box-shadow 0.2s",
   };
   const lbl={fontSize:12,fontWeight:700,color:C.navyMid,marginBottom:6,display:"block",textTransform:"uppercase",letterSpacing:0.8};
@@ -705,24 +705,24 @@ export default function App() {
         <div className="anim-scaleIn lews-success-card" style={{background:C.white,borderRadius:24,padding:"36px 28px",maxWidth:560,margin:"0 auto",border:`1px solid ${C.creamMid}`}}>
           <div style={{textAlign:"center",marginBottom:24}}>
             <div style={{width:72,height:72,borderRadius:"50%",background:C.goldPale,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px",fontSize:32,animation:"starPop 0.6s cubic-bezier(.22,.68,0,1.2) both"}}>🎓</div>
-            <h2 style={{fontFamily:"Playfair Display,serif",fontSize:26,color:C.navy,marginBottom:6,fontWeight:900}}>You're In!</h2>
+            <h2 style={{fontFamily:"Fraunces,serif",fontSize:26,color:C.navy,marginBottom:6,fontWeight:900}}>You're In!</h2>
             <p style={{color:C.textMute,fontSize:14,margin:0}}>
               Welcome, <strong style={{color:C.navy}}>{form.name}</strong> — you've secured your seat in{" "}
               <strong style={{color:C.gold}}>Speak English With Confidence</strong>
             </p>
           </div>
           <div style={{background:`linear-gradient(135deg,${C.navy},${C.navyMid})`,borderRadius:14,padding:"14px 18px",marginBottom:22,textAlign:"center"}}>
-            <p style={{color:C.goldLight,fontWeight:700,fontSize:13,margin:"0 0 4px"}}>📅 Classes start: 15 June 2026 (Mon)</p>
+            <p style={{color:C.goldLight,fontWeight:700,fontSize:13,margin:"0 0 4px"}}>📅 Classes start: 27 October 2026 (Tue)</p>
             <p style={{color:"rgba(255,255,255,0.75)",fontSize:12,margin:0}}>🕗 8:00 – 9:00 PM · Google Meet link via WhatsApp: <strong>{form.phone}</strong></p>
           </div>
           <WelcomeGuide name={form.name.split(" ")[0]}/>
           {registrationNote&&(
-            <p style={{background:C.goldPale,border:`1px solid ${C.gold}`,borderRadius:10,padding:"12px 14px",color:C.navy,fontSize:13,lineHeight:1.6,margin:"0 0 16px",fontFamily:"Inter,sans-serif"}}>
+            <p style={{background:C.goldPale,border:`1px solid ${C.gold}`,borderRadius:10,padding:"12px 14px",color:C.navy,fontSize:13,lineHeight:1.6,margin:"0 0 16px",fontFamily:"Plus Jakarta Sans,sans-serif"}}>
               {registrationNote}
             </p>
           )}
           <button className="btn-glow anim-pulse" onClick={resetRegistration}
-            style={{width:"100%",marginTop:24,background:C.navy,color:C.goldLight,border:"none",borderRadius:12,padding:"13px 36px",fontSize:15,cursor:"pointer",fontFamily:"Inter,sans-serif",fontWeight:700,letterSpacing:0.5}}>
+            style={{width:"100%",marginTop:24,background:C.navy,color:C.goldLight,border:"none",borderRadius:12,padding:"13px 36px",fontSize:15,cursor:"pointer",fontFamily:"Plus Jakarta Sans,sans-serif",fontWeight:700,letterSpacing:0.5}}>
             ← Back to Home
           </button>
         </div>
@@ -736,7 +736,7 @@ export default function App() {
       <style>{CSS}</style>
       <div className="lews-page" style={{minHeight:"100vh",background:C.cream,padding:"24px 16px"}}>
         <div style={{maxWidth:520,margin:"0 auto",width:"100%"}}>
-          <button onClick={()=>setView("home")} style={{background:"none",border:"none",color:C.navyLight,cursor:"pointer",fontSize:14,marginBottom:20,padding:0,fontWeight:700,fontFamily:"Inter,sans-serif"}}>
+          <button onClick={()=>setView("home")} style={{background:"none",border:"none",color:C.navyLight,cursor:"pointer",fontSize:14,marginBottom:20,padding:0,fontWeight:700,fontFamily:"Plus Jakarta Sans,sans-serif"}}>
             ← Back to Home
           </button>
 
@@ -744,12 +744,12 @@ export default function App() {
           <div className="anim-fadeUp lews-form-banner" style={{background:`linear-gradient(135deg,${C.navyDark},${C.navyMid})`,borderRadius:20,padding:"28px 24px",marginBottom:20,textAlign:"center",position:"relative",overflow:"hidden"}}>
             <Particles/>
             <p style={{color:C.goldLight,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,marginBottom:6,fontWeight:700}}>Online Live Class</p>
-            <h1 style={{fontFamily:"Playfair Display,serif",color:C.white,fontSize:28,fontWeight:900,margin:"0 0 4px"}}>Speak English</h1>
+            <h1 style={{fontFamily:"Fraunces,serif",color:C.white,fontSize:28,fontWeight:900,margin:"0 0 4px"}}>Speak English</h1>
             <p style={{color:C.goldLight,fontSize:15,fontWeight:800,margin:"0 0 14px",letterSpacing:1}}>WITH CONFIDENCE</p>
             <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}>
-              <span style={{background:C.gold,color:C.white,borderRadius:20,padding:"4px 14px",fontSize:12,fontWeight:800}}>50 DAYS</span>
-              <span style={{background:C.cream,color:C.navy,borderRadius:20,padding:"4px 14px",fontSize:12,fontWeight:800}}>₹999 ONLY</span>
-              <span style={{color:"rgba(255,255,255,0.6)",fontSize:12,padding:"4px 0"}}>Starts 15/6/26</span>
+              <span style={{background:C.gold,color:C.white,borderRadius:20,padding:"4px 14px",fontSize:12,fontWeight:800}}>45 DAYS</span>
+              <span style={{background:C.cream,color:C.navy,borderRadius:20,padding:"4px 14px",fontSize:12,fontWeight:800}}>₹1199 ONLY</span>
+              <span style={{color:"rgba(255,255,255,0.6)",fontSize:12,padding:"4px 0"}}>Starts 27/10/26</span>
             </div>
           </div>
 
@@ -758,7 +758,7 @@ export default function App() {
 
             {step===0 && (
               <div className="anim-fadeIn">
-                <h2 style={{fontSize:20,fontWeight:800,color:C.navy,marginBottom:4,fontFamily:"Playfair Display,serif"}}>Enter your details</h2>
+                <h2 style={{fontSize:20,fontWeight:800,color:C.navy,marginBottom:4,fontFamily:"Fraunces,serif"}}>Enter your details</h2>
                 <p style={{color:C.textMute,fontSize:13,marginBottom:24}}>We'll send your Google Meet link to your WhatsApp.</p>
                 {[
                   {key:"name",  label:"Full Name",      type:"text",  ph:"Your full name"},
@@ -773,7 +773,7 @@ export default function App() {
                   </div>
                 ))}
                 <button className="btn-glow" onClick={()=>{if(validate())setStep(1)}}
-                  style={{width:"100%",marginTop:8,background:`linear-gradient(135deg,${C.navy},${C.navyMid})`,color:C.goldLight,border:"none",borderRadius:12,padding:"15px",fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>
+                  style={{width:"100%",marginTop:8,background:`linear-gradient(135deg,${C.navy},${C.navyMid})`,color:C.goldLight,border:"none",borderRadius:12,padding:"15px",fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"Plus Jakarta Sans,sans-serif",letterSpacing:0.5}}>
                   Continue →
                 </button>
               </div>
@@ -781,10 +781,10 @@ export default function App() {
 
             {step===1 && (
               <div className="anim-fadeIn">
-                <h2 style={{fontSize:20,fontWeight:800,color:C.navy,marginBottom:20,fontFamily:"Playfair Display,serif"}}>Review & Confirm</h2>
+                <h2 style={{fontSize:20,fontWeight:800,color:C.navy,marginBottom:20,fontFamily:"Fraunces,serif"}}>Review & Confirm</h2>
                 <div style={{background:C.cream,border:`1px solid ${C.creamMid}`,borderRadius:14,padding:"20px",marginBottom:20}}>
-                  <p style={{fontWeight:800,color:C.navy,fontSize:15,margin:"0 0 4px",fontFamily:"Playfair Display,serif"}}>Speak English With Confidence</p>
-                  <p style={{color:C.textMute,fontSize:13,margin:"0 0 14px"}}>50-Day Live Course · Mon–Fri · 8–9 PM</p>
+                  <p style={{fontWeight:800,color:C.navy,fontSize:15,margin:"0 0 4px",fontFamily:"Fraunces,serif"}}>Speak English With Confidence</p>
+                  <p style={{color:C.textMute,fontSize:13,margin:"0 0 14px"}}>45-Day Live Course · Mon–Fri · 8–9 PM</p>
                   {[["Name",form.name],["Email",form.email],["WhatsApp",form.phone],["City",form.city]].map(([k,v])=>(
                     <div key={k} className="lews-review-row" style={{display:"flex",justifyContent:"space-between",gap:12,padding:"7px 0",borderBottom:`1px solid ${C.creamMid}`,fontSize:13}}>
                       <span style={{color:C.textMute,flexShrink:0}}>{k}</span><span style={{color:C.navy,fontWeight:600}}>{v}</span>
@@ -792,7 +792,7 @@ export default function App() {
                   ))}
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingTop:14}}>
                     <span style={{fontWeight:700,color:C.navy}}>Initial Payment</span>
-                    <span style={{fontWeight:900,color:C.gold,fontSize:26,fontFamily:"Playfair Display,serif"}}>₹300</span>
+                    <span style={{fontWeight:900,color:C.gold,fontSize:26,fontFamily:"Fraunces,serif"}}>₹300</span>
                   </div>
                   <p style={{color:C.textMute,fontSize:12,margin:"8px 0 0"}}>Due before Monday afternoon · remaining balance within 10 days of joining</p>
                 </div>
@@ -805,19 +805,19 @@ export default function App() {
                   <p style={{color:C.textMute,fontSize:12,margin:"12px 0 0",textAlign:"center"}}>Then upload your payment screenshot below.</p>
                 </div>
                 <div style={{background:C.white,border:`2px dashed ${paymentScreenshot?C.navyLight:C.creamMid}`,borderRadius:12,padding:"18px",marginBottom:20,textAlign:"center"}}>
-                  <p style={{fontWeight:700,color:C.navy,fontSize:14,margin:"0 0 10px",fontFamily:"Inter,sans-serif"}}>📎 Upload Payment Screenshot</p>
+                  <p style={{fontWeight:700,color:C.navy,fontSize:14,margin:"0 0 10px",fontFamily:"Plus Jakarta Sans,sans-serif"}}>📎 Upload Payment Screenshot</p>
                   {screenshotPreview?(
                     <div>
                       <img src={screenshotPreview} alt="Payment screenshot preview" style={{maxWidth:"100%",maxHeight:220,borderRadius:10,border:`1px solid ${C.creamMid}`,objectFit:"contain"}}/>
-                      <p style={{color:C.textMute,fontSize:12,margin:"8px 0 0",fontFamily:"Inter,sans-serif"}}>{paymentScreenshot.name}</p>
+                      <p style={{color:C.textMute,fontSize:12,margin:"8px 0 0",fontFamily:"Plus Jakarta Sans,sans-serif"}}>{paymentScreenshot.name}</p>
                       <button type="button" onClick={clearScreenshot} disabled={submitting}
-                        style={{marginTop:10,background:"transparent",color:C.navy,border:`1px solid ${C.navyMid}`,borderRadius:8,padding:"8px 14px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
+                        style={{marginTop:10,background:"transparent",color:C.navy,border:`1px solid ${C.navyMid}`,borderRadius:8,padding:"8px 14px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"Plus Jakarta Sans,sans-serif"}}>
                         Remove & choose another
                       </button>
                     </div>
                   ):(
                     <>
-                      <p style={{color:C.textMute,fontSize:12,margin:"0 0 12px",fontFamily:"Inter,sans-serif"}}>JPG or PNG · max 5 MB</p>
+                      <p style={{color:C.textMute,fontSize:12,margin:"0 0 12px",fontFamily:"Plus Jakarta Sans,sans-serif"}}>JPG or PNG · max 5 MB</p>
                       <input
                         type="file"
                         accept="image/*"
@@ -833,11 +833,11 @@ export default function App() {
                 {submitError&&<p style={{...errS,textAlign:"center",marginBottom:12}}>{submitError}</p>}
                 <div className="lews-action-btns" style={{display:"flex",gap:10}}>
                   <button onClick={()=>setStep(0)} disabled={submitting}
-                    style={{flex:1,background:"transparent",color:C.navy,border:`2px solid ${C.navyMid}`,borderRadius:12,padding:"13px",fontSize:15,fontWeight:700,cursor:submitting?"not-allowed":"pointer",opacity:submitting?0.6:1,fontFamily:"Inter,sans-serif",transition:"all 0.2s"}}>
+                    style={{flex:1,background:"transparent",color:C.navy,border:`2px solid ${C.navyMid}`,borderRadius:12,padding:"13px",fontSize:15,fontWeight:700,cursor:submitting?"not-allowed":"pointer",opacity:submitting?0.6:1,fontFamily:"Plus Jakarta Sans,sans-serif",transition:"all 0.2s"}}>
                     ← Back
                   </button>
                   <button className="btn-glow anim-pulse" onClick={confirmBooking} disabled={submitting}
-                    style={{flex:2,background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,color:C.navy,border:"none",borderRadius:12,padding:"13px",fontSize:15,fontWeight:800,cursor:submitting?"not-allowed":"pointer",opacity:submitting?0.7:1,fontFamily:"Inter,sans-serif"}}>
+                    style={{flex:2,background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,color:C.white,border:"none",borderRadius:12,padding:"13px",fontSize:15,fontWeight:800,cursor:submitting?"not-allowed":"pointer",opacity:submitting?0.7:1,fontFamily:"Plus Jakarta Sans,sans-serif"}}>
                     {submitting?"Sending…":"Confirm Booking 🎉"}
                   </button>
                 </div>
@@ -856,19 +856,19 @@ export default function App() {
       <style>{CSS}</style>
 
       {/* NAV */}
-      <nav className="lews-nav" style={{background:C.navyDark,padding:"0 28px",display:"flex",alignItems:"center",justifyContent:"space-between",height:60,position:"sticky",top:0,zIndex:100}}>
-        <span className="lews-nav-logo" style={{fontFamily:"Playfair Display,serif",fontSize:20,color:C.white,fontWeight:900,letterSpacing:0.5}}>
-          LEARN WITH<span style={{color:C.goldLight}}> SHAS</span>
+      <nav className="lews-nav" style={{background:C.white,padding:"0 28px",display:"flex",alignItems:"center",justifyContent:"space-between",height:60,position:"sticky",top:0,zIndex:100,borderBottom:`1px solid ${C.creamMid}`}}>
+        <span className="lews-nav-logo" style={{fontFamily:"Fraunces,serif",fontSize:20,color:C.navy,fontWeight:900,letterSpacing:0.5}}>
+          LEARN WITH<span style={{color:C.gold}}> SHAS</span>
         </span>
         <div style={{display:"flex",gap:20,alignItems:"center"}}>
           <div className="lews-nav-links" style={{display:"flex",gap:20,alignItems:"center"}}>
           {["Courses","Schedule","About"].map(l=>(
-            <span key={l} style={{color:"rgba(255,255,255,0.55)",fontSize:13,cursor:"pointer",fontFamily:"Inter,sans-serif",transition:"color 0.2s"}}
-              onMouseEnter={e=>e.target.style.color=C.goldLight} onMouseLeave={e=>e.target.style.color="rgba(255,255,255,0.55)"}>{l}</span>
+            <span key={l} style={{color:C.textMute,fontSize:13,cursor:"pointer",fontFamily:"Plus Jakarta Sans,sans-serif",transition:"color 0.2s"}}
+              onMouseEnter={e=>e.target.style.color=C.gold} onMouseLeave={e=>e.target.style.color=C.textMute}>{l}</span>
           ))}
           </div>
           <button className="btn-glow lews-nav-cta" onClick={()=>setView("register")}
-            style={{background:C.gold,color:C.navy,border:"none",borderRadius:8,padding:"9px 20px",fontSize:13,fontWeight:800,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
+            style={{background:C.gold,color:C.white,border:"none",borderRadius:8,padding:"9px 20px",fontSize:13,fontWeight:800,cursor:"pointer",fontFamily:"Plus Jakarta Sans,sans-serif"}}>
             Book Seat →
           </button>
         </div>
@@ -878,47 +878,47 @@ export default function App() {
       <Ticker/>
 
       {/* HERO */}
-      <div className="lews-hero" style={{background:`linear-gradient(155deg,${C.navyDark} 0%,${C.navyMid} 100%)`,padding:"72px 20px 80px",textAlign:"center",position:"relative",overflow:"hidden"}}>
+      <div className="lews-hero" style={{background:`linear-gradient(155deg,${C.white} 0%,${C.creamDark} 55%,${C.goldPale} 100%)`,padding:"72px 20px 80px",textAlign:"center",position:"relative",overflow:"hidden"}}>
         <Particles/>
         {/* Decorative rings */}
-        <div style={{position:"absolute",top:-80,right:-80,width:320,height:320,borderRadius:"50%",border:`1px solid rgba(245,200,66,0.12)`,pointerEvents:"none"}}/>
-        <div style={{position:"absolute",top:-40,right:-40,width:200,height:200,borderRadius:"50%",border:`1px solid rgba(245,200,66,0.08)`,pointerEvents:"none"}}/>
-        <div style={{position:"absolute",bottom:-60,left:-60,width:260,height:260,borderRadius:"50%",border:`1px solid rgba(245,200,66,0.1)`,pointerEvents:"none"}}/>
+        <div style={{position:"absolute",top:-80,right:-80,width:320,height:320,borderRadius:"50%",border:`1px solid rgba(13,148,136,0.16)`,pointerEvents:"none"}}/>
+        <div style={{position:"absolute",top:-40,right:-40,width:200,height:200,borderRadius:"50%",border:`1px solid rgba(13,148,136,0.1)`,pointerEvents:"none"}}/>
+        <div style={{position:"absolute",bottom:-60,left:-60,width:260,height:260,borderRadius:"50%",border:`1px solid rgba(13,148,136,0.12)`,pointerEvents:"none"}}/>
 
-        <div className="anim-fadeUp" style={{display:"inline-flex",alignItems:"center",gap:8,background:"rgba(201,150,12,0.18)",border:`1px solid rgba(201,150,12,0.4)`,borderRadius:24,padding:"6px 18px",marginBottom:24}}>
-          <div style={{width:7,height:7,borderRadius:"50%",background:C.goldLight,animation:"blink 1.2s infinite"}}/>
-          <span style={{color:C.goldLight,fontSize:12,fontWeight:700,letterSpacing:2,textTransform:"uppercase"}}>Online Live Class</span>
+        <div className="anim-fadeUp" style={{display:"inline-flex",alignItems:"center",gap:8,background:C.goldPale,border:`1px solid ${C.goldLight}`,borderRadius:24,padding:"6px 18px",marginBottom:24}}>
+          <div style={{width:7,height:7,borderRadius:"50%",background:C.gold,animation:"blink 1.2s infinite"}}/>
+          <span style={{color:C.navy,fontSize:12,fontWeight:700,letterSpacing:2,textTransform:"uppercase"}}>Online Live Class</span>
         </div>
 
-        <h1 className="anim-fadeUp" style={{fontFamily:"Playfair Display,serif",color:C.white,fontSize:"clamp(46px,11vw,88px)",fontWeight:900,lineHeight:1,margin:"0 0 0",textTransform:"uppercase",letterSpacing:-2,animationDelay:"0.08s"}}>
+        <h1 className="anim-fadeUp" style={{fontFamily:"Fraunces,serif",color:C.navy,fontSize:"clamp(46px,11vw,88px)",fontWeight:900,lineHeight:1,margin:"0 0 0",textTransform:"uppercase",letterSpacing:-2,animationDelay:"0.08s"}}>
           SPEAK
         </h1>
-        <h1 className="anim-fadeUp" style={{fontFamily:"Playfair Display,serif",color:C.goldLight,fontSize:"clamp(46px,11vw,88px)",fontWeight:900,lineHeight:1,margin:"0 0 12px",textTransform:"uppercase",letterSpacing:-2,animationDelay:"0.16s"}}>
+        <h1 className="anim-fadeUp" style={{fontFamily:"Fraunces,serif",color:C.gold,fontSize:"clamp(46px,11vw,88px)",fontWeight:900,lineHeight:1,margin:"0 0 12px",textTransform:"uppercase",letterSpacing:-2,animationDelay:"0.16s"}}>
           ENGLISH
         </h1>
-        <p className="anim-fadeUp lews-hero-sub" style={{color:"rgba(255,255,255,0.85)",fontSize:"clamp(13px,3vw,18px)",fontWeight:700,letterSpacing:4,textTransform:"uppercase",marginBottom:20,animationDelay:"0.24s",fontFamily:"Inter,sans-serif"}}>
+        <p className="anim-fadeUp lews-hero-sub" style={{color:C.navyMid,fontSize:"clamp(13px,3vw,18px)",fontWeight:700,letterSpacing:4,textTransform:"uppercase",marginBottom:20,animationDelay:"0.24s",fontFamily:"Plus Jakarta Sans,sans-serif"}}>
           WITH CONFIDENCE
         </p>
-        <p className="anim-fadeUp lews-hero-tagline" style={{color:"rgba(255,255,255,0.45)",fontSize:14,marginBottom:40,animationDelay:"0.3s",fontFamily:"Inter,sans-serif"}}>
+        <p className="anim-fadeUp lews-hero-tagline" style={{color:C.textMute,fontSize:14,marginBottom:40,animationDelay:"0.3s",fontFamily:"Plus Jakarta Sans,sans-serif"}}>
           Learn &nbsp;|&nbsp; Practice &nbsp;|&nbsp; Speak &nbsp;|&nbsp; Succeed
         </p>
 
-        {/* 50 DAYS BADGE */}
+        {/* 45 DAYS BADGE */}
         <div className="anim-scaleIn anim-float" style={{display:"inline-block",marginBottom:36,animationDelay:"0.38s"}}>
           <div className="lews-badge-wrap" style={{background:C.white,borderRadius:18,padding:"18px 48px",display:"inline-block",border:`3px solid ${C.goldLight}`}}>
-            <p style={{color:C.navy,fontSize:"clamp(30px,7vw,52px)",fontWeight:900,margin:0,fontFamily:"Playfair Display,serif",letterSpacing:-1}}>50 DAYS</p>
+            <p style={{color:C.navy,fontSize:"clamp(30px,7vw,52px)",fontWeight:900,margin:0,fontFamily:"Fraunces,serif",letterSpacing:-1}}>45 DAYS</p>
           </div>
           <div style={{background:C.gold,borderRadius:10,padding:"7px 24px",marginTop:-6}}>
-            <p style={{color:C.white,fontWeight:800,fontSize:13,margin:0,letterSpacing:2,textTransform:"uppercase",fontFamily:"Inter,sans-serif"}}>Transform Your English</p>
+            <p style={{color:C.white,fontWeight:800,fontSize:13,margin:0,letterSpacing:2,textTransform:"uppercase",fontFamily:"Plus Jakarta Sans,sans-serif"}}>Transform Your English</p>
           </div>
         </div>
 
         {/* FEATURES */}
-        <div className="anim-fadeUp lews-features" style={{background:"rgba(255,255,255,0.06)",backdropFilter:"blur(4px)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:20,padding:"24px 20px",margin:"0 auto",maxWidth:620,display:"flex",justifyContent:"space-around",flexWrap:"wrap",gap:20,animationDelay:"0.44s"}}>
+        <div className="anim-fadeUp lews-features" style={{background:C.white,backdropFilter:"blur(4px)",border:`1px solid ${C.creamMid}`,borderRadius:20,padding:"24px 20px",margin:"0 auto",maxWidth:620,display:"flex",justifyContent:"space-around",flexWrap:"wrap",gap:20,animationDelay:"0.44s"}}>
           {FEATURES.map(f=>(
             <div key={f.label} className="feature-card lews-feature-item" style={{textAlign:"center",minWidth:90}}>
               <div className="feature-icon" style={{fontSize:30,marginBottom:8}}>{f.icon}</div>
-              <p style={{fontSize:11,fontWeight:700,color:"rgba(255,255,255,0.8)",margin:0,textTransform:"uppercase",lineHeight:1.4,fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>{f.label}</p>
+              <p style={{fontSize:11,fontWeight:700,color:C.navy,margin:0,textTransform:"uppercase",lineHeight:1.4,fontFamily:"Plus Jakarta Sans,sans-serif",letterSpacing:0.5}}>{f.label}</p>
             </div>
           ))}
         </div>
@@ -926,28 +926,28 @@ export default function App() {
         {/* CTA */}
         <div className="anim-fadeUp" style={{marginTop:40,animationDelay:"0.52s"}}>
           <button className="btn-glow anim-pulse lews-hero-cta" onClick={()=>setView("register")}
-            style={{background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,color:C.navy,border:"none",borderRadius:16,padding:"18px 52px",fontSize:18,fontWeight:900,cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:0.5,display:"inline-flex",alignItems:"center",gap:10}}>
+            style={{background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,color:C.white,border:"none",borderRadius:16,padding:"18px 52px",fontSize:18,fontWeight:900,cursor:"pointer",fontFamily:"Plus Jakarta Sans,sans-serif",letterSpacing:0.5,display:"inline-flex",alignItems:"center",gap:10}}>
             <WaveBars/> Book Your Seat Now <WaveBars/>
           </button>
-          <p style={{color:"rgba(255,255,255,0.35)",fontSize:12,marginTop:12,fontFamily:"Inter,sans-serif"}}>⚡ Limited seats — small batch only</p>
+          <p style={{color:C.textMute,fontSize:12,marginTop:12,fontFamily:"Plus Jakarta Sans,sans-serif"}}>⚡ Limited seats — small batch only</p>
         </div>
       </div>
 
       {/* 3 CARDS */}
       <div className="lews-section" style={{background:C.cream,padding:"56px 20px"}}>
         <div style={{maxWidth:680,margin:"0 auto"}}>
-          <p style={{color:C.gold,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,textAlign:"center",marginBottom:8,fontWeight:700,fontFamily:"Inter,sans-serif"}}>Act Fast</p>
-          <h2 style={{fontFamily:"Playfair Display,serif",color:C.navy,textAlign:"center",fontSize:"clamp(22px,4vw,32px)",fontWeight:900,marginBottom:32}}>Class Details at a Glance</h2>
+          <p style={{color:C.gold,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,textAlign:"center",marginBottom:8,fontWeight:700,fontFamily:"Plus Jakarta Sans,sans-serif"}}>Act Fast</p>
+          <h2 style={{fontFamily:"Fraunces,serif",color:C.navy,textAlign:"center",fontSize:"clamp(22px,4vw,32px)",fontWeight:900,marginBottom:32}}>Class Details at a Glance</h2>
           <div className="lews-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:16}}>
             {[
-              {bg:C.navyDark,label:"Starts From",val:"15 / 6 / 26",sub:"Monday",lc:"rgba(255,255,255,0.5)",vc:C.white,sc:C.goldLight},
-              {bg:C.gold,    label:"Limited Seats",val:"🪑",sub:"Small batch · Personal attention",lc:"rgba(15,36,71,0.6)",vc:C.navy,sc:"rgba(15,36,71,0.7)"},
-              {bg:C.navy,    label:"Course Fee",val:"₹999",sub:"One-time only",lc:"rgba(255,255,255,0.5)",vc:C.goldLight,sc:C.white},
+              {bg:C.gold,    label:"Starts From",val:"27 / 10 / 26",sub:"Tuesday",lc:"rgba(255,255,255,0.75)",vc:C.white,sc:C.goldPale},
+              {bg:C.goldPale,label:"Limited Seats",val:"🪑",sub:"Small batch · Personal attention",lc:C.navyMid,vc:C.navy,sc:C.navyMid},
+              {bg:C.navy,    label:"Course Fee",val:"₹1199",sub:"One-time only",lc:"rgba(255,255,255,0.7)",vc:C.white,sc:C.goldPale},
             ].map((c,i)=>(
               <div key={i} className="card-hover anim-scaleIn" style={{background:c.bg,borderRadius:18,padding:"22px 16px",textAlign:"center",animationDelay:`${i*0.1}s`}}>
-                <p style={{fontSize:11,fontWeight:700,color:c.lc,textTransform:"uppercase",letterSpacing:1,margin:"0 0 8px",fontFamily:"Inter,sans-serif"}}>{c.label}</p>
-                <p style={{fontSize:c.val.startsWith("₹")?28:c.val==="🪑"?32:20,fontWeight:900,color:c.vc,margin:"0 0 4px",fontFamily:"Playfair Display,serif"}}>{c.val}</p>
-                <p style={{fontSize:11,color:c.sc,margin:0,fontWeight:600,fontFamily:"Inter,sans-serif"}}>{c.sub}</p>
+                <p style={{fontSize:11,fontWeight:700,color:c.lc,textTransform:"uppercase",letterSpacing:1,margin:"0 0 8px",fontFamily:"Plus Jakarta Sans,sans-serif"}}>{c.label}</p>
+                <p style={{fontSize:c.val.startsWith("₹")?28:c.val==="🪑"?32:20,fontWeight:900,color:c.vc,margin:"0 0 4px",fontFamily:"Fraunces,serif"}}>{c.val}</p>
+                <p style={{fontSize:11,color:c.sc,margin:0,fontWeight:600,fontFamily:"Plus Jakarta Sans,sans-serif"}}>{c.sub}</p>
               </div>
             ))}
           </div>
@@ -957,8 +957,8 @@ export default function App() {
       {/* TESTIMONIALS */}
       <div style={{background:C.creamDark,padding:"56px 20px"}}>
         <div style={{maxWidth:680,margin:"0 auto"}}>
-          <p style={{color:C.gold,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,textAlign:"center",marginBottom:8,fontWeight:700,fontFamily:"Inter,sans-serif"}}>Student Stories</p>
-          <h2 style={{fontFamily:"Playfair Display,serif",color:C.navy,textAlign:"center",fontSize:"clamp(22px,4vw,30px)",fontWeight:900,marginBottom:32}}>What Our Learners Say</h2>
+          <p style={{color:C.gold,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,textAlign:"center",marginBottom:8,fontWeight:700,fontFamily:"Plus Jakarta Sans,sans-serif"}}>Student Stories</p>
+          <h2 style={{fontFamily:"Fraunces,serif",color:C.navy,textAlign:"center",fontSize:"clamp(22px,4vw,30px)",fontWeight:900,marginBottom:32}}>What Our Learners Say</h2>
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:16}}>
             {[
               {name:"Priya S.",role:"Marketing Executive",q:"In three months I was presenting in English at work.Now I'm able to express myself clearly! Looking forward to the next session."},
@@ -967,14 +967,14 @@ export default function App() {
             ].map((t,i)=>(
               <div key={t.name} className="card-hover anim-fadeUp" style={{background:C.white,borderRadius:18,padding:"24px 20px",border:`1px solid ${C.creamMid}`,animationDelay:`${i*0.1}s`}}>
                 <div style={{color:C.gold,fontSize:18,marginBottom:12,letterSpacing:2}}>★★★★★</div>
-                <p style={{fontSize:13,color:"#4A4A4A",lineHeight:1.75,marginBottom:16,fontFamily:"Inter,sans-serif"}}>"{t.q}"</p>
+                <p style={{fontSize:13,color:"#4A4A4A",lineHeight:1.75,marginBottom:16,fontFamily:"Plus Jakarta Sans,sans-serif"}}>"{t.q}"</p>
                 <div style={{display:"flex",alignItems:"center",gap:10}}>
-                  <div style={{width:36,height:36,borderRadius:"50%",background:C.navy,display:"flex",alignItems:"center",justifyContent:"center",color:C.goldLight,fontWeight:800,fontSize:13,fontFamily:"Inter,sans-serif"}}>
+                  <div style={{width:36,height:36,borderRadius:"50%",background:C.gold,display:"flex",alignItems:"center",justifyContent:"center",color:C.white,fontWeight:800,fontSize:13,fontFamily:"Plus Jakarta Sans,sans-serif"}}>
                     {t.name[0]}
                   </div>
                   <div>
-                    <p style={{fontWeight:700,color:C.navy,fontSize:13,margin:0,fontFamily:"Inter,sans-serif"}}>{t.name}</p>
-                    <p style={{fontSize:11,color:C.textMute,margin:0,fontFamily:"Inter,sans-serif"}}>{t.role}</p>
+                    <p style={{fontWeight:700,color:C.navy,fontSize:13,margin:0,fontFamily:"Plus Jakarta Sans,sans-serif"}}>{t.name}</p>
+                    <p style={{fontSize:11,color:C.textMute,margin:0,fontFamily:"Plus Jakarta Sans,sans-serif"}}>{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -984,42 +984,42 @@ export default function App() {
       </div>
 
       {/* CTA BANNER */}
-      <div style={{background:`linear-gradient(135deg,${C.navyDark},${C.navyMid})`,padding:"64px 20px",textAlign:"center",position:"relative",overflow:"hidden"}}>
+      <div style={{background:`linear-gradient(135deg,${C.creamDark},${C.goldPale})`,padding:"64px 20px",textAlign:"center",position:"relative",overflow:"hidden"}}>
         <Particles/>
-        <p className="anim-fadeUp" style={{color:C.goldLight,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,marginBottom:12,fontWeight:700,fontFamily:"Inter,sans-serif"}}>Don't Miss Out</p>
-        <h2 className="anim-fadeUp" style={{fontFamily:"Playfair Display,serif",color:C.white,fontSize:"clamp(24px,5vw,40px)",fontWeight:900,marginBottom:12,animationDelay:"0.08s"}}>LIMITED SEATS</h2>
-        <p className="anim-fadeUp" style={{color:"rgba(255,255,255,0.6)",fontSize:15,marginBottom:36,animationDelay:"0.16s",fontFamily:"Inter,sans-serif"}}>Hurry — small batch fills up fast. Reserve yours today.</p>
-        <button className="btn-glow anim-pulse lews-banner-cta" onClick={()=>setView("register")} style={{background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,color:C.navy,border:"none",borderRadius:16,padding:"18px 52px",fontSize:17,fontWeight:900,cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>
+        <p className="anim-fadeUp" style={{color:C.gold,fontSize:11,textTransform:"uppercase",letterSpacing:2.5,marginBottom:12,fontWeight:700,fontFamily:"Plus Jakarta Sans,sans-serif"}}>Don't Miss Out</p>
+        <h2 className="anim-fadeUp" style={{fontFamily:"Fraunces,serif",color:C.navy,fontSize:"clamp(24px,5vw,40px)",fontWeight:900,marginBottom:12,animationDelay:"0.08s"}}>LIMITED SEATS</h2>
+        <p className="anim-fadeUp" style={{color:C.textMute,fontSize:15,marginBottom:36,animationDelay:"0.16s",fontFamily:"Plus Jakarta Sans,sans-serif"}}>Hurry — small batch fills up fast. Reserve yours today.</p>
+        <button className="btn-glow anim-pulse lews-banner-cta" onClick={()=>setView("register")} style={{background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,color:C.white,border:"none",borderRadius:16,padding:"18px 52px",fontSize:17,fontWeight:900,cursor:"pointer",fontFamily:"Plus Jakarta Sans,sans-serif",letterSpacing:0.5}}>
           Book Your Seat Now →
         </button>
       </div>
 
       {/* CONTACT */}
-      <div style={{background:C.navyDark,padding:"36px 24px"}}>
+      <div style={{background:C.white,padding:"36px 24px",borderTop:`1px solid ${C.creamMid}`}}>
         <div className="lews-contact" style={{maxWidth:640,margin:"0 auto",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:20}}>
           <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>
             <div>
-              <p style={{color:C.gold,fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:1,margin:"0 0 4px",fontFamily:"Inter,sans-serif"}}>📧 Email</p>
-              <p style={{color:"rgba(255,255,255,0.8)",fontSize:13,margin:0,fontFamily:"Inter,sans-serif",wordBreak:"break-word"}}>learnenglishwithshas@gmail.com</p>
+              <p style={{color:C.gold,fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:1,margin:"0 0 4px",fontFamily:"Plus Jakarta Sans,sans-serif"}}>📧 Email</p>
+              <p style={{color:C.text,fontSize:13,margin:0,fontFamily:"Plus Jakarta Sans,sans-serif",wordBreak:"break-word"}}>learnenglishwithshas@gmail.com</p>
             </div>
             <div>
-              <p style={{color:C.gold,fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:1,margin:"0 0 4px",fontFamily:"Inter,sans-serif"}}>📸 Instagram</p>
-              <p style={{color:"rgba(255,255,255,0.8)",fontSize:13,margin:0,fontFamily:"Inter,sans-serif"}}>@learn.with.shas</p>
+              <p style={{color:C.gold,fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:1,margin:"0 0 4px",fontFamily:"Plus Jakarta Sans,sans-serif"}}>📸 Instagram</p>
+              <p style={{color:C.text,fontSize:13,margin:0,fontFamily:"Plus Jakarta Sans,sans-serif"}}>@learn.with.shas</p>
             </div>
           </div>
           <button className="btn-glow lews-contact-btn" onClick={()=>setView("register")}
-            style={{background:C.gold,color:C.navy,border:"none",borderRadius:10,padding:"11px 22px",fontSize:13,fontWeight:800,cursor:"pointer",fontFamily:"Inter,sans-serif"}}>
+            style={{background:C.gold,color:C.white,border:"none",borderRadius:10,padding:"11px 22px",fontSize:13,fontWeight:800,cursor:"pointer",fontFamily:"Plus Jakarta Sans,sans-serif"}}>
             Book Seat →
           </button>
         </div>
       </div>
 
       {/* FOOTER */}
-      <div style={{background:C.navy,padding:"18px 20px",textAlign:"center",borderTop:`2px solid ${C.gold}`}}>
-        <p style={{color:"rgba(255,255,255,0.7)",fontSize:13,margin:0,fontFamily:"Inter,sans-serif"}}>
-          📅 <strong style={{color:C.goldLight}}>Classes start: 15/6/26 (Monday)</strong>
+      <div style={{background:C.creamDark,padding:"18px 20px",textAlign:"center",borderTop:`2px solid ${C.gold}`}}>
+        <p style={{color:C.text,fontSize:13,margin:0,fontFamily:"Plus Jakarta Sans,sans-serif"}}>
+          📅 <strong style={{color:C.gold}}>Classes start: 27/10/26 (Tuesday)</strong>
         </p>
-        <p style={{color:"rgba(255,255,255,0.35)",fontSize:11,marginTop:6,margin:"6px 0 0",fontFamily:"Inter,sans-serif",letterSpacing:1}}>CONSISTENCY TODAY · CONFIDENCE TOMORROW</p>
+        <p style={{color:C.textMute,fontSize:11,marginTop:6,margin:"6px 0 0",fontFamily:"Plus Jakarta Sans,sans-serif",letterSpacing:1}}>CONSISTENCY TODAY · CONFIDENCE TOMORROW</p>
       </div>
     </div>
   );
