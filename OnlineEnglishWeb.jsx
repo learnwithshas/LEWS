@@ -462,7 +462,7 @@ function PaymentQR({ compact = false }) {
         }}
       />
       <p style={{ color: C.textMute, fontSize: 11, margin: "8px 0 0", fontFamily: "Plus Jakarta Sans,sans-serif" }}>
-        Scan to pay ₹300 via Google Pay
+        Scan to pay ₹1199 via Google Pay
       </p>
     </div>
   );
@@ -497,9 +497,8 @@ function WelcomeGuide({ name }) {
       <div style={{ ...section, background: C.goldPale, border: `1px solid ${C.gold}`, borderRadius: 12, padding: "14px 16px" }}>
         <p style={heading}>💰 Fee Details</p>
         <ul style={list}>
-          <li>Initial payment: <strong style={{ color: C.navy }}>₹300</strong> (due before Monday afternoon)</li>
+          <li>Total amount: <strong style={{ color: C.navy }}>₹1199</strong></li>
           <li>Pay to UPI: <strong className="lews-upi-id" style={{ color: C.navy, fontFamily: "monospace" }}>{UPI_ID}</strong></li>
-          <li>Remaining balance can be cleared within 10 days of joining</li>
         </ul>
         <PaymentQR compact />
       </div>
@@ -612,7 +611,7 @@ export default function App() {
       phone:form.phone,
       city:form.city,
       course:"Speak English With Confidence",
-      fee:"₹300 initial",
+      fee:"₹1199",
     };
     try{
       const compressed=await compressImage(paymentScreenshot);
@@ -791,15 +790,14 @@ export default function App() {
                     </div>
                   ))}
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingTop:14}}>
-                    <span style={{fontWeight:700,color:C.navy}}>Initial Payment</span>
-                    <span style={{fontWeight:900,color:C.gold,fontSize:26,fontFamily:"Fraunces,serif"}}>₹300</span>
+                    <span style={{fontWeight:700,color:C.navy}}>Total Amount</span>
+                    <span style={{fontWeight:900,color:C.gold,fontSize:26,fontFamily:"Fraunces,serif"}}>₹1199</span>
                   </div>
-                  <p style={{color:C.textMute,fontSize:12,margin:"8px 0 0"}}>Due before Monday afternoon · remaining balance within 10 days of joining</p>
                 </div>
                 {/* UPI */}
                 <div style={{background:C.goldPale,border:`1px solid ${C.gold}`,borderRadius:12,padding:"16px 18px",marginBottom:20}}>
                   <p style={{fontWeight:700,color:C.navy,fontSize:14,margin:"0 0 6px"}}>💳 Pay via UPI / GPay / PhonePe</p>
-                  <p style={{color:C.textMute,fontSize:13,margin:"0 0 4px"}}>Send ₹300 to:</p>
+                  <p style={{color:C.textMute,fontSize:13,margin:"0 0 4px"}}>Send ₹1199 to:</p>
                   <p className="lews-upi-id" style={{color:C.navy,fontWeight:800,fontSize:15,margin:"0 0 4px",fontFamily:"monospace",textAlign:"center"}}>{UPI_ID}</p>
                   <PaymentQR />
                   <p style={{color:C.textMute,fontSize:12,margin:"12px 0 0",textAlign:"center"}}>Then upload your payment screenshot below.</p>
