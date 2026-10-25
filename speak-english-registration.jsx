@@ -12,7 +12,7 @@ const INFO = [
   { icon: "📅", top: "MON TO FRIDAY", bottom: "WEEKDAYS ONLY" },
   { icon: "🕗", top: "8:00 PM – 9:00 PM", bottom: "1 HOUR DAILY" },
   { icon: "🎥", top: "GOOGLE MEET", bottom: "LIVE CLASSES" },
-  { icon: "🗓", top: "TOTAL DURATION", bottom: "50 DAYS" },
+  { icon: "🗓", top: "TOTAL DURATION", bottom: "45 DAYS" },
 ];
 
 const STEPS = ["Your Details", "Review & Pay"];
@@ -77,7 +77,7 @@ export default function App() {
         </p>
         <p style={{ color: "#6B7280", fontSize: 14, marginBottom: 8 }}>Confirmation sent to <strong>{form.email}</strong></p>
         <div style={{ background: "#F5F3FF", border: "1px solid #DDD6FE", borderRadius: 10, padding: "14px 20px", margin: "20px 0 28px" }}>
-          <p style={{ fontSize: 13, color: "#6B21A8", margin: 0, fontWeight: 600 }}>📅 Classes start: 15/6/26 (Monday)</p>
+          <p style={{ fontSize: 13, color: "#6B21A8", margin: 0, fontWeight: 600 }}>📅 Classes start: 27/10/26 (Tuesday)</p>
           <p style={{ fontSize: 13, color: "#7C3AED", margin: "4px 0 0" }}>🕗 8:00 PM – 9:00 PM via Google Meet</p>
         </div>
         <p style={{ fontSize: 13, color: "#9CA3AF", marginBottom: 24 }}>Our team will WhatsApp you the Google Meet link shortly at <strong>{form.phone}</strong></p>
@@ -102,11 +102,11 @@ export default function App() {
           <h1 style={{ color: "#fff", fontSize: 26, fontWeight: 800, margin: "0 0 4px", fontFamily: "Georgia,serif" }}>Speak English</h1>
           <p style={{ color: "#E11D48", fontSize: 16, fontWeight: 700, margin: "0 0 12px" }}>WITH CONFIDENCE</p>
           <div style={{ display: "flex", gap: 8, justifyContent: "center", alignItems: "center", flexWrap: "wrap" }}>
-            <span style={{ background: "#F59E0B", color: "#fff", borderRadius: 20, padding: "4px 14px", fontSize: 13, fontWeight: 700 }}>50 DAYS</span>
+            <span style={{ background: "#F59E0B", color: "#fff", borderRadius: 20, padding: "4px 14px", fontSize: 13, fontWeight: 700 }}>45 DAYS</span>
             <span style={{ color: "#C4B5FD", fontSize: 13 }}>·</span>
-            <span style={{ color: "#FDE68A", fontSize: 14, fontWeight: 700 }}>₹999 ONLY</span>
+            <span style={{ color: "#FDE68A", fontSize: 14, fontWeight: 700 }}>₹1199 ONLY</span>
             <span style={{ color: "#C4B5FD", fontSize: 13 }}>·</span>
-            <span style={{ color: "#C4B5FD", fontSize: 13 }}>Starts 15/6/26</span>
+            <span style={{ color: "#C4B5FD", fontSize: 13 }}>Starts 27/10/26</span>
           </div>
         </div>
 
@@ -151,7 +151,7 @@ export default function App() {
               <div style={{ background: "#F5F3FF", border: "1px solid #DDD6FE", borderRadius: 12, padding: "20px", marginBottom: 20 }}>
                 <div style={{ borderBottom: "1px solid #DDD6FE", paddingBottom: 12, marginBottom: 12 }}>
                   <p style={{ fontWeight: 700, color: "#6B21A8", fontSize: 15, margin: "0 0 4px" }}>Speak English With Confidence</p>
-                  <p style={{ color: "#7C3AED", fontSize: 13, margin: 0 }}>50-Day Online Live Course · Mon–Fri · 8–9 PM</p>
+                  <p style={{ color: "#7C3AED", fontSize: 13, margin: 0 }}>45-Day Online Live Course · Mon–Fri · 8–9 PM</p>
                 </div>
                 {[["Name", form.name], ["Email", form.email], ["WhatsApp", form.phone], ["City", form.city]].map(([k, v]) => (
                   <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: 13, padding: "4px 0" }}>
@@ -161,7 +161,7 @@ export default function App() {
                 ))}
                 <div style={{ borderTop: "1px solid #DDD6FE", marginTop: 12, paddingTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span style={{ fontWeight: 700, color: "#1F1F1F" }}>Course Fee</span>
-                  <span style={{ fontWeight: 800, color: "#6B21A8", fontSize: 22 }}>₹999</span>
+                  <span style={{ fontWeight: 800, color: "#6B21A8", fontSize: 22 }}>₹1199</span>
                 </div>
               </div>
 
@@ -221,10 +221,10 @@ export default function App() {
         </p>
         <p style={{ color: "#C4B5FD", fontSize: 15, marginBottom: 28 }}>Learn &nbsp;|&nbsp; Practice &nbsp;|&nbsp; Speak &nbsp;|&nbsp; Succeed</p>
 
-        {/* 50 Days badge */}
+        {/* 45 Days badge */}
         <div style={{ display: "inline-block", marginBottom: 12 }}>
           <div style={{ background: "#fff", borderRadius: 14, padding: "16px 40px", display: "inline-block" }}>
-            <p style={{ color: "#6B21A8", fontSize: "clamp(28px,6vw,48px)", fontWeight: 900, margin: 0, letterSpacing: -1 }}>50 DAYS</p>
+            <p style={{ color: "#6B21A8", fontSize: "clamp(28px,6vw,48px)", fontWeight: 900, margin: 0, letterSpacing: -1 }}>45 DAYS</p>
           </div>
           <div style={{ background: "#F59E0B", borderRadius: 8, padding: "6px 20px", marginTop: -6 }}>
             <p style={{ color: "#fff", fontWeight: 800, fontSize: 13, margin: 0, letterSpacing: 1.5, textTransform: "uppercase" }}>Transform Your English</p>
@@ -259,8 +259,8 @@ export default function App() {
       <div style={{ padding: "24px 20px", maxWidth: 640, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
         <div style={{ background: "#0F766E", borderRadius: 14, padding: "18px 14px", textAlign: "center" }}>
           <p style={{ color: "#99F6E4", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 8px" }}>Starts From</p>
-          <p style={{ color: "#fff", fontSize: 20, fontWeight: 900, margin: 0 }}>15/6/26</p>
-          <p style={{ color: "#FCD34D", fontSize: 12, fontWeight: 700, margin: "4px 0 0" }}>MONDAY</p>
+          <p style={{ color: "#fff", fontSize: 20, fontWeight: 900, margin: 0 }}>27/10/26</p>
+          <p style={{ color: "#FCD34D", fontSize: 12, fontWeight: 700, margin: "4px 0 0" }}>TUESDAY</p>
         </div>
         <div style={{ background: "#F59E0B", borderRadius: 14, padding: "18px 14px", textAlign: "center" }}>
           <div style={{ fontSize: 22, marginBottom: 4 }}>🪑</div>
@@ -269,7 +269,7 @@ export default function App() {
         </div>
         <div style={{ background: "#6B21A8", borderRadius: 14, padding: "18px 14px", textAlign: "center" }}>
           <p style={{ color: "#DDD6FE", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 4px" }}>Course Fee</p>
-          <p style={{ color: "#fff", fontSize: 26, fontWeight: 900, margin: 0 }}>₹999</p>
+          <p style={{ color: "#fff", fontSize: 26, fontWeight: 900, margin: 0 }}>₹1199</p>
           <div style={{ background: "#FCD34D", borderRadius: 6, padding: "2px 10px", display: "inline-block", marginTop: 4 }}>
             <span style={{ color: "#6B21A8", fontWeight: 800, fontSize: 11 }}>ONLY</span>
           </div>
@@ -317,7 +317,7 @@ export default function App() {
       {/* Footer */}
       <div style={{ background: "#6B21A8", padding: "16px 20px", textAlign: "center" }}>
         <p style={{ color: "#DDD6FE", fontSize: 13, margin: 0 }}>
-          📅 <strong style={{ color: "#FCD34D" }}>Classes start from: 15/6/26 (Monday)</strong>
+          📅 <strong style={{ color: "#FCD34D" }}>Classes start from: 27/10/26 (Tuesday)</strong>
         </p>
         <p style={{ color: "#A78BFA", fontSize: 12, marginTop: 4, margin: "4px 0 0" }}>Consistency Today. Confidence Tomorrow.</p>
       </div>
