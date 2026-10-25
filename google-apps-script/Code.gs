@@ -36,7 +36,7 @@ function doPost(e) {
       data.phone || "",
       data.city || "",
       data.course || "Speak English With Confidence",
-      data.fee || "₹300 initial",
+      data.fee || "₹1199",
       screenshotUrl,
     ]);
 
