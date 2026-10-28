@@ -77,7 +77,7 @@ export default function App() {
         </p>
         <p style={{ color: "#6B7280", fontSize: 14, marginBottom: 8 }}>Confirmation sent to <strong>{form.email}</strong></p>
         <div style={{ background: "#F5F3FF", border: "1px solid #DDD6FE", borderRadius: 10, padding: "14px 20px", margin: "20px 0 28px" }}>
-          <p style={{ fontSize: 13, color: "#6B21A8", margin: 0, fontWeight: 600 }}>📅 Classes start: 27/10/26 (Tuesday)</p>
+          <p style={{ fontSize: 13, color: "#6B21A8", margin: 0, fontWeight: 600 }}>📅 Classes start: 3/11/26 (Tuesday)</p>
           <p style={{ fontSize: 13, color: "#7C3AED", margin: "4px 0 0" }}>🕗 8:00 PM – 9:00 PM via Google Meet</p>
         </div>
         <p style={{ fontSize: 13, color: "#9CA3AF", marginBottom: 24 }}>Our team will WhatsApp you the Google Meet link shortly at <strong>{form.phone}</strong></p>
@@ -106,7 +106,7 @@ export default function App() {
             <span style={{ color: "#C4B5FD", fontSize: 13 }}>·</span>
             <span style={{ color: "#FDE68A", fontSize: 14, fontWeight: 700 }}>₹1199 ONLY</span>
             <span style={{ color: "#C4B5FD", fontSize: 13 }}>·</span>
-            <span style={{ color: "#C4B5FD", fontSize: 13 }}>Starts 27/10/26</span>
+            <span style={{ color: "#C4B5FD", fontSize: 13 }}>Starts 3/11/26</span>
           </div>
         </div>
 
@@ -259,7 +259,7 @@ export default function App() {
       <div style={{ padding: "24px 20px", maxWidth: 640, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
         <div style={{ background: "#0F766E", borderRadius: 14, padding: "18px 14px", textAlign: "center" }}>
           <p style={{ color: "#99F6E4", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 8px" }}>Starts From</p>
-          <p style={{ color: "#fff", fontSize: 20, fontWeight: 900, margin: 0 }}>27/10/26</p>
+          <p style={{ color: "#fff", fontSize: 20, fontWeight: 900, margin: 0 }}>3/11/26</p>
           <p style={{ color: "#FCD34D", fontSize: 12, fontWeight: 700, margin: "4px 0 0" }}>TUESDAY</p>
         </div>
         <div style={{ background: "#F59E0B", borderRadius: 14, padding: "18px 14px", textAlign: "center" }}>
@@ -317,7 +317,7 @@ export default function App() {
       {/* Footer */}
       <div style={{ background: "#6B21A8", padding: "16px 20px", textAlign: "center" }}>
         <p style={{ color: "#DDD6FE", fontSize: 13, margin: 0 }}>
-          📅 <strong style={{ color: "#FCD34D" }}>Classes start from: 27/10/26 (Tuesday)</strong>
+          📅 <strong style={{ color: "#FCD34D" }}>Classes start from: 3/11/26 (Tuesday)</strong>
         </p>
         <p style={{ color: "#A78BFA", fontSize: 12, marginTop: 4, margin: "4px 0 0" }}>Consistency Today. Confidence Tomorrow.</p>
       </div>
