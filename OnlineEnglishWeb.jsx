@@ -253,7 +253,7 @@ function Particles() {
 
 /* ── TICKER ───────────────────────────────────────── */
 function Ticker() {
-  const items = ["📅 Classes Start 27/10/26","⏰ 8:00 PM – 9:00 PM","🎥 Google Meet Live","🪑 Limited Seats Only","💰 ₹1199 Only","🏆 45-Day Programme","📅 Classes Start 27/10/26","⏰ 8:00 PM – 9:00 PM","🎥 Google Meet Live","🪑 Limited Seats Only","💰 ₹1199 Only","🏆 45-Day Programme"];
+  const items = ["📅 Classes Start 3/11/26","⏰ 8:00 PM – 9:00 PM","🎥 Google Meet Live","🪑 Limited Seats Only","💰 ₹1199 Only","🏆 45-Day Programme","📅 Classes Start 3/11/26","⏰ 8:00 PM – 9:00 PM","🎥 Google Meet Live","🪑 Limited Seats Only","💰 ₹1199 Only","🏆 45-Day Programme"];
   return (
     <div style={{background:C.gold,overflow:"hidden",padding:"8px 0",whiteSpace:"nowrap"}}>
       <div style={{display:"inline-flex",gap:48,animation:"ticker 22s linear infinite"}}>
@@ -711,7 +711,7 @@ export default function App() {
             </p>
           </div>
           <div style={{background:`linear-gradient(135deg,${C.navy},${C.navyMid})`,borderRadius:14,padding:"14px 18px",marginBottom:22,textAlign:"center"}}>
-            <p style={{color:C.goldLight,fontWeight:700,fontSize:13,margin:"0 0 4px"}}>📅 Classes start: 27 October 2026 (Tue)</p>
+            <p style={{color:C.goldLight,fontWeight:700,fontSize:13,margin:"0 0 4px"}}>📅 Classes start: 3 November 2026 (Tue)</p>
             <p style={{color:"rgba(255,255,255,0.75)",fontSize:12,margin:0}}>🕗 8:00 – 9:00 PM · Google Meet link via WhatsApp: <strong>{form.phone}</strong></p>
           </div>
           <WelcomeGuide name={form.name.split(" ")[0]}/>
@@ -748,7 +748,7 @@ export default function App() {
             <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}>
               <span style={{background:C.gold,color:C.white,borderRadius:20,padding:"4px 14px",fontSize:12,fontWeight:800}}>45 DAYS</span>
               <span style={{background:C.cream,color:C.navy,borderRadius:20,padding:"4px 14px",fontSize:12,fontWeight:800}}>₹1199 ONLY</span>
-              <span style={{color:"rgba(255,255,255,0.6)",fontSize:12,padding:"4px 0"}}>Starts 27/10/26</span>
+              <span style={{color:"rgba(255,255,255,0.6)",fontSize:12,padding:"4px 0"}}>Starts 3/11/26</span>
             </div>
           </div>
 
@@ -938,7 +938,7 @@ export default function App() {
           <h2 style={{fontFamily:"Fraunces,serif",color:C.navy,textAlign:"center",fontSize:"clamp(22px,4vw,32px)",fontWeight:900,marginBottom:32}}>Class Details at a Glance</h2>
           <div className="lews-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:16}}>
             {[
-              {bg:C.gold,    label:"Starts From",val:"27 / 10 / 26",sub:"Tuesday",lc:"rgba(255,255,255,0.75)",vc:C.white,sc:C.goldPale},
+              {bg:C.gold,    label:"Starts From",val:"3 / 11 / 26",sub:"Tuesday",lc:"rgba(255,255,255,0.75)",vc:C.white,sc:C.goldPale},
               {bg:C.goldPale,label:"Limited Seats",val:"🪑",sub:"Small batch · Personal attention",lc:C.navyMid,vc:C.navy,sc:C.navyMid},
               {bg:C.navy,    label:"Course Fee",val:"₹1199",sub:"One-time only",lc:"rgba(255,255,255,0.7)",vc:C.white,sc:C.goldPale},
             ].map((c,i)=>(
@@ -1015,7 +1015,7 @@ export default function App() {
       {/* FOOTER */}
       <div style={{background:C.creamDark,padding:"18px 20px",textAlign:"center",borderTop:`2px solid ${C.gold}`}}>
         <p style={{color:C.text,fontSize:13,margin:0,fontFamily:"Plus Jakarta Sans,sans-serif"}}>
-          📅 <strong style={{color:C.gold}}>Classes start: 27/10/26 (Tuesday)</strong>
+          📅 <strong style={{color:C.gold}}>Classes start: 3/11/26 (Tuesday)</strong>
         </p>
         <p style={{color:C.textMute,fontSize:11,marginTop:6,margin:"6px 0 0",fontFamily:"Plus Jakarta Sans,sans-serif",letterSpacing:1}}>CONSISTENCY TODAY · CONFIDENCE TOMORROW</p>
       </div>
